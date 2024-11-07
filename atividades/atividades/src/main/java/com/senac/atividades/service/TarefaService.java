@@ -78,7 +78,7 @@ public class TarefaService {
         return ati;
     }
         
-    private Integer findMissingId(List<Integer> ids) {
+    public Integer findMissingId(List<Integer> ids) {
         int n = ids.size();
         for (int i = 1; i <= n + 1; i++) {
             if (!ids.contains(i)) {

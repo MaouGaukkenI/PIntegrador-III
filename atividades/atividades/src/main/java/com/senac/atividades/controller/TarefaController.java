@@ -4,6 +4,7 @@ package com.senac.atividades.controller;
 import org.springframework.stereotype.Controller;
 import com.senac.atividades.service.TarefaService;
 import com.senac.atividades.data.Tarefa;
+import com.senac.atividades.service.HTService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,10 +24,13 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 
-@RequestMapping("/tar") 
+@RequestMapping("/Tar") 
 public class TarefaController {
     @Autowired
     private TarefaService tarefaService;
+    
+    @Autowired
+    private HTService htService;
 
     @GetMapping("/listarIds")
     public ResponseEntity<List<Integer>> getAllIds() {
@@ -86,6 +90,17 @@ public class TarefaController {
             return new ResponseEntity<>(tarefaEditada, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    
+    @PostMapping("/endTar/{id}")
+    public ResponseEntity<String> finalizarTarefa(@PathVariable Integer id) {
+        boolean sucesso = htService.moverParaHistorico(id);
+        
+        if (sucesso) {
+            return ResponseEntity.ok("Tarefa finalizada com sucesso.");
+        } else {
+            return ResponseEntity.badRequest().body("Falha ao finalizar tarefa.");
         }
     }
 }

@@ -28,7 +28,7 @@ public class HistoricoService{
         historicos.add(new Historico(3,"atividade3","2005-07-11","Atividade teste 3", "Finalizada"));
     }
     
-    private Integer findMissingId(List<Integer> ids) {
+    public Integer findMissingId(List<Integer> ids) {
         int n = ids.size();
         for (int i = 1; i <= n + 1; i++) {
             if (!ids.contains(i)) {

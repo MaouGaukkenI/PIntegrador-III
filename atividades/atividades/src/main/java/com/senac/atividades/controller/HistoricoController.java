@@ -5,6 +5,7 @@
 package com.senac.atividades.controller;
 
 import com.senac.atividades.data.Historico;
+import com.senac.atividades.service.HTService;
 import com.senac.atividades.service.HistoricoService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class HistoricoController {
     @Autowired
     private HistoricoService historicoService;
+    
+    @Autowired
+    private HTService htService;
     
     @GetMapping("/listarIds")
     public ResponseEntity<List<Integer>> getAllIds(){
@@ -78,6 +82,17 @@ public class HistoricoController {
             return new ResponseEntity<>(tarefaEditada, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    
+    @PostMapping("/recTar/{id}")
+    public ResponseEntity<String> recuperarTarefa(@PathVariable Integer id) {
+        boolean sucesso = htService.moverParaTarefas(id);
+        
+        if (sucesso) {
+            return ResponseEntity.ok("Tarefa recuperada com sucesso.");
+        } else {
+            return ResponseEntity.badRequest().body("Falha ao recuperar tarefa.");
         }
     }
     
