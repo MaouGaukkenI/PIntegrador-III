@@ -1,4 +1,3 @@
-
 package com.senac.atividades.data;
 
 import lombok.AllArgsConstructor;
@@ -9,12 +8,13 @@ import lombok.NoArgsConstructor;
  *
  * @author TheDe
  */
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Historico {
+
     private Integer id;
+    private Integer userId;
     private String titulo;
     private String datat;
     private String descricao;
@@ -88,5 +88,19 @@ public class Historico {
      */
     public void setStatust(String statust) {
         this.statust = statust;
+    }
+
+    /**
+     * @return the userId
+     */
+    public Integer getUserId() {
+        return userId;
+    }
+
+    /**
+     * @param userId the userId to set
+     */
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }

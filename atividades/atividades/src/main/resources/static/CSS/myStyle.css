@@ -1,0 +1,107 @@
+/*Funções gerais*/
+body{
+    min-height: 100vh;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    background-color: green;
+}
+header{
+    height: 14vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+    background-color: rgb(52, 186, 52);
+    top: 0;
+    left: 0;
+    border: 0.25vh solid black;
+}
+header img{
+    margin-left: 1vh;
+}
+.EspaçadorIvh{
+    width: 1vh;
+    height: 1vh;
+}
+/*Ajustes do menu*/
+.divMenu{
+    flex: 1;
+    padding: 1vh;
+}
+main{
+    margin-left: 17vh;
+    flex-grow: 1;
+    margin-top: 16vh;
+    margin-right: 2vh;
+    margin-bottom: 2vh;
+    font-size: 3vh;
+    background-color: rgb(219, 219, 219);
+    display: flex;
+    flex-direction: column;
+    border-radius: 4vh;
+}
+/*Layout da Tabela*/
+table{
+    border-collapse: collapse;
+    width: 100%;
+}
+th, td{
+    background-color: white;
+    border: .25vh solid black;
+}
+.hidden-column{
+    display: none;
+}
+.table-container{
+    max-height: 30vh;
+    overflow-x: auto;
+    border: 0.5vh solid black;
+}
+/*Layout do Menu lateral */
+nav{
+    height: 86vh;
+    width: 15vh;
+    background-color: rgb(52, 186, 52);
+    margin-top: 14vh;
+    border: 0.25vh solid black;
+    z-index: 9;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.btnNav{
+    height: 14vh;
+    cursor: pointer;
+    border: .4vh solid black;
+    margin-left: 1vh;
+    font-size: 4vh;
+}
+#btnHis{
+    margin-top: 10vh;
+}
+.itens-menu a{
+    margin-left: 1vh;
+    list-style-type: none;
+    text-decoration: none;
+    color: black;
+    font-size: 10vh;
+    display: flex;
+    margin-top: 2vh;
+    margin-bottom: 6vh;
+}
+.txtLink {
+    margin-left: 3vh;
+    font-size: 4vh;
+}
+ul{
+    list-style: none;
+    margin-left: -3vh;
+}
+.item-menu a {
+    align-items: center;
+}

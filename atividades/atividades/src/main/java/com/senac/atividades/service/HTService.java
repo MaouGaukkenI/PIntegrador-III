@@ -17,21 +17,23 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class HTService {
+
     @Autowired
     private HistoricoService historicoService;
-    
+
     @Autowired
     private TarefaService tarefaService;
-    
+
     public boolean moverParaHistorico(Integer id) {
         Tarefa tarefa = tarefaService.getTarefaById(id);
         if (tarefa != null) {
             Historico historico = new Historico(
-                historicoService.findMissingId(historicoService.findAllIds()),
-                tarefa.getTitulo(),
-                tarefa.getDatat(),
-                tarefa.getDescricao(),
-                "Finalizada"
+                    historicoService.findMissingId(historicoService.findAllIds()),
+                    tarefa.getUserId(),
+                    tarefa.getTitulo(),
+                    tarefa.getDatat(),
+                    tarefa.getDescricao(),
+                    "Finalizada"
             );
 
             historicoService.criarTarefa(historico);
@@ -40,24 +42,24 @@ public class HTService {
         }
         return false;
     }
-    
-    public boolean moverParaTarefas(Integer id){
+
+    public boolean moverParaTarefas(Integer id) {
         Historico historico = historicoService.getTarefaById(id);
-        if (historico != null){
+        if (historico != null) {
             Tarefa tarefa = new Tarefa(
-                tarefaService.findMissingId(tarefaService.findAllIds()),
-                historico.getTitulo(),
-                historico.getDatat(),
-                historico.getDescricao(),
-                "Ativo"
+                    tarefaService.findMissingId(tarefaService.findAllIds()),
+                    historico.getUserId(),
+                    historico.getTitulo(),
+                    historico.getDatat(),
+                    historico.getDescricao(),
+                    "ativa"
             );
-            
+
             tarefaService.criarTarefa(tarefa);
-            
+
             return historicoService.deletarTarefa(id);
         }
         return false;
     }
-    
-    
+
 }

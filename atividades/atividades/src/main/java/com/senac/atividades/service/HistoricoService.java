@@ -19,15 +19,59 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @author TheDe
  */
 @Service
-public class HistoricoService{
+public class HistoricoService {
+
     private static List<Historico> historicos = new ArrayList<>();
-    
-    public HistoricoService(){
-        historicos.add(new Historico(1,"atividade1","2005-07-11","Atividade teste 1", "Finalizada"));
-        historicos.add(new Historico(2,"atividade2","2005-07-11","Atividade teste 2", "Finalizada"));
-        historicos.add(new Historico(3,"atividade3","2005-07-11","Atividade teste 3", "Finalizada"));
+
+    public HistoricoService() {
+        historicos.add(new Historico(1, 1, "atividade1", "2005-07-11", "Atividade teste 1", "Finalizada"));
+        historicos.add(new Historico(2, 1, "atividade2", "2005-07-11", "Atividade teste 2", "Finalizada"));
+        historicos.add(new Historico(3, 1, "atividade3", "2005-07-11", "Atividade teste 3", "Finalizada"));
+        historicos.add(new Historico(4, 1, "atividade4", "2005-07-12", "Atividade teste 4", "Finalizada"));
+        historicos.add(new Historico(5, 1, "atividade5", "2005-07-12", "Atividade teste 5", "Finalizada"));
+        historicos.add(new Historico(6, 1, "atividade6", "2005-07-12", "Atividade teste 6", "Finalizada"));
+        historicos.add(new Historico(7, 1, "atividade7", "2005-07-13", "Atividade teste 7", "Finalizada"));
+        historicos.add(new Historico(8, 1, "atividade8", "2005-07-13", "Atividade teste 8", "Finalizada"));
+        historicos.add(new Historico(9, 1, "atividade9", "2005-07-13", "Atividade teste 9", "Finalizada"));
+        historicos.add(new Historico(10, 1, "atividade10", "2005-07-14", "Atividade teste 10", "Finalizada"));
+        historicos.add(new Historico(11, 1, "atividade11", "2005-07-14", "Atividade teste 11", "Finalizada"));
+        historicos.add(new Historico(12, 1, "atividade12", "2005-07-14", "Atividade teste 12", "Finalizada"));
+        historicos.add(new Historico(13, 1, "atividade13", "2005-07-15", "Atividade teste 13", "Finalizada"));
+        historicos.add(new Historico(14, 1, "atividade14", "2005-07-15", "Atividade teste 14", "Finalizada"));
+        historicos.add(new Historico(15, 1, "atividade15", "2005-07-15", "Atividade teste 15", "Finalizada"));
+        historicos.add(new Historico(16, 1, "atividade16", "2005-07-16", "Atividade teste 16", "Finalizada"));
+        historicos.add(new Historico(17, 1, "atividade17", "2005-07-16", "Atividade teste 17", "Finalizada"));
+        historicos.add(new Historico(18, 1, "atividade18", "2005-07-16", "Atividade teste 18", "Finalizada"));
+        historicos.add(new Historico(19, 1, "atividade19", "2005-07-17", "Atividade teste 19", "Finalizada"));
+        historicos.add(new Historico(20, 1, "atividade20", "2005-07-17", "Atividade teste 20", "Finalizada"));
+        historicos.add(new Historico(21, 1, "atividade21", "2005-07-17", "Atividade teste 21", "Finalizada"));
+        historicos.add(new Historico(22, 1, "atividade22", "2005-07-18", "Atividade teste 22", "Finalizada"));
+        historicos.add(new Historico(23, 1, "atividade23", "2005-07-18", "Atividade teste 23", "Finalizada"));
+        historicos.add(new Historico(24, 1, "atividade24", "2005-07-18", "Atividade teste 24", "Finalizada"));
+        historicos.add(new Historico(25, 1, "atividade25", "2005-07-19", "Atividade teste 25", "Finalizada"));
+        historicos.add(new Historico(26, 1, "atividade26", "2005-07-19", "Atividade teste 26", "Finalizada"));
+        historicos.add(new Historico(27, 1, "atividade27", "2005-07-19", "Atividade teste 27", "Finalizada"));
+        historicos.add(new Historico(28, 1, "atividade28", "2005-07-20", "Atividade teste 28", "Finalizada"));
+        historicos.add(new Historico(29, 1, "atividade29", "2005-07-20", "Atividade teste 29", "Finalizada"));
+        historicos.add(new Historico(30, 1, "atividade30", "2005-07-20", "Atividade teste 30", "Finalizada"));
+        historicos.add(new Historico(31, 1, "atividade31", "2005-07-21", "Atividade teste 31", "Finalizada"));
+        historicos.add(new Historico(32, 1, "atividade32", "2005-07-21", "Atividade teste 32", "Finalizada"));
+        historicos.add(new Historico(33, 1, "atividade33", "2005-07-21", "Atividade teste 33", "Finalizada"));
+        historicos.add(new Historico(34, 1, "atividade34", "2005-07-22", "Atividade teste 34", "Finalizada"));
+        historicos.add(new Historico(35, 1, "atividade35", "2005-07-22", "Atividade teste 35", "Finalizada"));
+        historicos.add(new Historico(36, 1, "atividade36", "2005-07-22", "Atividade teste 36", "Finalizada"));
+        historicos.add(new Historico(37, 1, "atividade37", "2005-07-23", "Atividade teste 37", "Finalizada"));
+        historicos.add(new Historico(38, 1, "atividade38", "2005-07-23", "Atividade teste 38", "Finalizada"));
+        historicos.add(new Historico(39, 1, "atividade39", "2005-07-23", "Atividade teste 39", "Finalizada"));
+        historicos.add(new Historico(40, 1, "atividade40", "2005-07-24", "Atividade teste 40", "Finalizada"));
+
     }
-    
+
+    public List<Historico> listarHistorico() {
+        List<Historico> his = getHistoricos();
+        return his;
+    }
+
     public Integer findMissingId(List<Integer> ids) {
         int n = ids.size();
         for (int i = 1; i <= n + 1; i++) {
@@ -37,24 +81,24 @@ public class HistoricoService{
         }
         return null;
     }
-    
-    public List<Integer> findAllIds(){
+
+    public List<Integer> findAllIds() {
         List<Integer> ids = new ArrayList<>();
-        for (Historico his: getHistoricos()){
+        for (Historico his : getHistoricos()) {
             ids.add(his.getId());
         }
         return ids;
     }
-    
-    public Historico getTarefaById(Integer id){
-        for(Historico his: historicos){
-            if(Objects.equals(id, his.getId())){
+
+    public Historico getTarefaById(Integer id) {
+        for (Historico his : historicos) {
+            if (Objects.equals(id, his.getId())) {
                 return his;
             }
         }
         return null;
     }
-    
+
     public Historico criarTarefa(Historico his) {
         List<Integer> allIds = findAllIds();
         Integer missingId = findMissingId(allIds);
@@ -69,42 +113,43 @@ public class HistoricoService{
         getHistoricos().add(his);
         return his;
     }
-    
-    public Historico cadAt(@Valid @RequestBody Historico his, String tit, String dat, String des, String sta){
+
+    public Historico cadAt(@Valid @RequestBody Historico his, Integer idUser, String tit, String dat, String des, String sta) {
         List<Integer> allIds = findAllIds();
-        
+
         Integer missingId = findMissingId(allIds);
-        
-        if(missingId != null){
+
+        if (missingId != null) {
             his.setId(missingId);
         } else {
-            int nextid = allIds.isEmpty() ? 1: allIds.stream().max(Integer::compare).get() + 1;
+            int nextid = allIds.isEmpty() ? 1 : allIds.stream().max(Integer::compare).get() + 1;
             his.setId(nextid);
         }
-        
+
+        his.setUserId(idUser);
         his.setTitulo(tit);
         his.setDatat(dat);
         his.setDescricao(des);
         his.setStatust(sta);
-        
+
         return his;
     }
-    
-    public Historico editarTar (Integer id, Historico h){
+
+    public Historico editarTar(Integer id, Historico h) {
         Historico his = getTarefaById(id);
-        
-        if(his != null){
+
+        if (his != null) {
             his.setDatat(h.getDatat());
             his.setDescricao(h.getDescricao());
             his.setStatust(h.getStatust());
             his.setTitulo(h.getTitulo());
-            
+
             return his;
         }
         return null;
     }
-    
-    public boolean deletarTarefa(Integer id){
+
+    public boolean deletarTarefa(Integer id) {
         return historicos.removeIf(historico -> historico.getId().equals(id));
     }
 
@@ -121,5 +166,5 @@ public class HistoricoService{
     public static void setHistoricos(List<Historico> aHistoricos) {
         historicos = aHistoricos;
     }
-    
+
 }

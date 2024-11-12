@@ -1,4 +1,3 @@
-
 package com.senac.atividades.controller;
 
 import org.springframework.stereotype.Controller;
@@ -24,11 +23,12 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 
-@RequestMapping("/Tar") 
+@RequestMapping("/Tar")
 public class TarefaController {
+
     @Autowired
     private TarefaService tarefaService;
-    
+
     @Autowired
     private HTService htService;
 
@@ -37,13 +37,11 @@ public class TarefaController {
         List<Integer> ids = tarefaService.findAllIds();
         return new ResponseEntity<>(ids, HttpStatus.OK);
     }
-    
-    @GetMapping("/listar") 
-    public ResponseEntity<List> getAllTar() { 
 
-        List<Tarefa> tar = TarefaService.getTarefas();; 
+    @GetMapping("/listar")
+    public ResponseEntity<List> getAllTar() {
 
-        return new ResponseEntity<>(tar, HttpStatus.OK); 
+        return new ResponseEntity<>(tarefaService.listarTarefas(), HttpStatus.OK);
     }
 
     @PostMapping("/adicionar")
@@ -51,29 +49,24 @@ public class TarefaController {
         Tarefa novaTarefa = tarefaService.criarTarefa(tar);
         return new ResponseEntity<>(novaTarefa, HttpStatus.CREATED);
     }
-    
+
     @GetMapping("/pesquisar/{id}")
-    public ResponseEntity<Tarefa> getTarefaById(@PathVariable Integer id) { 
+    public ResponseEntity<Tarefa> getTarefaById(@PathVariable Integer id) {
 
-        Tarefa tar = tarefaService.getTarefaById(id); 
+        Tarefa tar = tarefaService.getTarefaById(id);
 
-        return new ResponseEntity<>(tar, HttpStatus.OK); 
+        return new ResponseEntity<>(tar, HttpStatus.OK);
     }
-    
-    @GetMapping("/")
-    public String Menu(){
+
+    @GetMapping("/cadAt")
+    public String cadAt(Tarefa ati, @RequestParam(required = false) Integer usId, @RequestParam(required = false) String tit, @RequestParam(required = false) String dat, @RequestParam(required = false) String des, @RequestParam(required = false) String sta) {
+        tarefaService.cadAt(ati, usId, tit, dat, des, sta);
+
         return "index";
     }
-    
-    @GetMapping("/cadAt")
-    public String cadAt(Tarefa ati, @RequestParam(required = false) String tit, @RequestParam(required = false) String dat, @RequestParam(required = false) String des, @RequestParam(required = false) String sta){
-        tarefaService.cadAt(ati, tit, dat, des, sta);
-        
-        return"index";
-    }
-    
+
     @DeleteMapping("/dell/{id}")
-    public ResponseEntity<String> dellAt(@PathVariable Integer id){
+    public ResponseEntity<String> dellAt(@PathVariable Integer id) {
         boolean foiRemovido = tarefaService.deletarTarefa(id);
 
         if (foiRemovido) {
@@ -82,7 +75,7 @@ public class TarefaController {
             return new ResponseEntity<>("Tarefa não encontrada", HttpStatus.NOT_FOUND);
         }
     }
-    
+
     @PutMapping("/editar/{id}")
     public ResponseEntity<Tarefa> editarTarefa(@PathVariable Integer id, @RequestBody Tarefa novaTarefa) {
         Tarefa tarefaEditada = tarefaService.editarTar(id, novaTarefa);
@@ -92,11 +85,11 @@ public class TarefaController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    
+
     @PostMapping("/endTar/{id}")
     public ResponseEntity<String> finalizarTarefa(@PathVariable Integer id) {
         boolean sucesso = htService.moverParaHistorico(id);
-        
+
         if (sucesso) {
             return ResponseEntity.ok("Tarefa finalizada com sucesso.");
         } else {

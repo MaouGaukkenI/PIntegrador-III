@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+
+<html>
+    <head>
+        <title>Historico</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link th:href="@{/css/myStyle.css}" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <style>
+            #btnHis{
+                background-color: green;
+                margin-left: 0.5vh;
+                zoom: 110%;
+                border-top-left-radius: 2vh;
+                border-bottom-left-radius: 2vh;
+            }
+            .hidden {
+                display: none;
+            }
+            .hiddenOff{
+                display: flex;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <img th:src="@{imagens/Logo.png}" width="120vh"/>
+        </header>
+        <nav>
+            <ul class="itens-menu">
+                <li class="item-menu" id="btnTar"><a href="/Tarefas">
+                        <span class="icon"><i class="bi bi-house-door-fill"></i></span>
+                        <span class="txtLink">Tarefas</span>
+                    </a></li>
+                <li class="item-menu" id="btnHis"><a href="/Historico">
+                        <span class="icon"><i class="bi bi-clock-history"></i></span>
+                        <span class="txtLink">Historico</span>
+                    </a></li>
+            </ul>
+        </nav>
+        <main>
+            <div class="divMenu">
+                <p>Histórico:</p>
+                <div id="btnFunctions">
+                    <button style="font-size: 3vh" id="recTar">Recuperar Tarefa</button>
+                    <button style="font-size: 3vh" id="dellTar">Deletar Tarefa</button>
+                </div>
+                <p id="tarSelect" class="hidden">Clique em uma tarefa da tabela para selecioná-la</p>
+
+                <div class="fncDell hidden"><button type="submit" id="btnDell" style="font-size: 3vh">Deletar!</button></div>
+                <div class="fncRec hidden"><button type="submit" id="btnRec" style="font-size: 3vh">Recuperar!</button></div>
+            </div>
+            <div class="divMenu">
+                <div class="table-container">
+                    <table id="tblTarefas">
+                        <thead>
+                            <tr>
+                                <th class="hidden-column">ID</th>
+                                <th class="hidden-column">ID Usuario</th>
+                                <th>Título</th>
+                                <th>Descrição</th>
+                                <th>Data Final</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="movieRow" th:each="tarefa : ${listarTarefas}">
+                                <td class="hidden-column" th:text="${tarefa.id}"></td>
+                                <td class="hidden-column" th:text="${tarefa.userId}"></td>
+                                <td th:text="${tarefa.titulo}"></td>
+                                <td th:text="${tarefa.descricao}"></td>
+                                <td class="DataEdit" th:text="${tarefa.datat}"></td>
+                                <td th:text="${tarefa.statust}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+        <footer></footer>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const rows = document.querySelectorAll(".movieRow");
+                const tarSelect = document.querySelector("#tarSelect");
+                const btnRec = document.querySelector("#recTar");
+                const btnDell = document.querySelector("#dellTar");
+                const dellForm = document.querySelector(".fncDell");
+                const recForm = document.querySelector(".fncRec");
+
+                let dell = false;
+                let rec = false;
+                
+                var idG = -1;
+
+                function showform(form) {
+                    dellForm.classList.add("hidden");
+                    recForm.classList.add("hidden");
+                    dellForm.classList.remove("hiddenOff");
+                    recForm.classList.remove("hiddenOff");
+
+                    form.classList.remove("hidden");
+                    form.classList.add("hiddenOff");
+                }
+                
+                function hiddenform(){
+                    dellForm.classList.add("hidden");
+                    recForm.classList.add("hidden");
+                    dellForm.classList.remove("hiddenOff");
+                    recForm.classList.remove("hiddenOff");
+                }
+                
+                function clearSelections() {
+                    tarSelect.classList.add("hidden");
+                    tarSelect.textContent = "Clique em uma tarefa da tabela para selecioná-la";
+                    dell = false;
+                    rec = false;
+                }
+
+                function setupRowClickActions() {
+                    tarSelect.classList.remove("hidden");
+                    rows.forEach (row => {
+                        row.addEventListener("click", function () {
+                            const id = row.querySelector("td:nth-child(1)").textContent.trim();
+                            idG = id;
+                            if(dell){
+                                tarSelect.textContent = `ID da tarefa selecionada: ${idG} \nTem certeza que deseja deleta-la?`;
+                                showform(dellForm);
+                            }else if(rec){
+                                tarSelect.textContent = `ID da tarefa selecionada: ${idG} \nQuer mesmo recuperar a tarefa?`;
+                                showform(recForm);
+                            }
+                        });
+                    });
+                }
+
+                btnDell.addEventListener("click", function () {
+                    clearSelections();
+                    dell = true;
+                    hiddenform();
+                    setupRowClickActions();
+                });
+
+                btnRec.addEventListener("click", function () {
+                    clearSelections();
+                    rec = true;
+                    hiddenform();
+                    setupRowClickActions();
+                });
+                
+                // Envio da função de recuperar a tarefa
+                document.getElementById("btnRec").addEventListener("click", async function () {
+                    const id = idG;
+                    try {
+                        const response = await fetch(`/recTar/${id}`, {
+                            method: 'POST',
+                            headers: {'Content-Type': 'application/json'}
+                        });
+
+                        if (response.ok) {
+                            alert('Tarefa Recuperada com sucesso!');
+                            window.location.reload();
+                        } else {
+                            alert('Erro ao Recuperar a tarefa.');
+                        }
+                    } catch (error) {
+                        console.error('Erro na requisição:', error);
+                        alert('Erro ao processar a solicitação.');
+                    }
+                }, {once: true});
+                
+                // Envio da função de exclusão da tarefa
+                document.getElementById("btnDell").addEventListener("click", async function () {
+                    const id = idG;
+                    try {
+                        const response = await fetch(`/dell/${id}`, {
+                            method: 'DELETE',
+                            headers: {'Content-Type': 'application/json'}
+                        });
+
+                        if (response.ok) {
+                            alert('Tarefa Excluida com sucesso!');
+                            window.location.reload();
+                        } else {
+                            alert('Erro ao Excluir a tarefa.');
+                        }
+                    } catch (error) {
+                        console.error('Erro na requisição:', error);
+                        alert('Erro ao processar a solicitação.');
+                    }
+                }, {once: true});
+            });
+        </script>
+    </body>
+</html>

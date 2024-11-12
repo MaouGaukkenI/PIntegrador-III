@@ -29,43 +29,41 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @RequestMapping("/His")
 public class HistoricoController {
+
     @Autowired
     private HistoricoService historicoService;
-    
+
     @Autowired
     private HTService htService;
-    
+
     @GetMapping("/listarIds")
-    public ResponseEntity<List<Integer>> getAllIds(){
+    public ResponseEntity<List<Integer>> getAllIds() {
         List<Integer> ids = historicoService.findAllIds();
         return new ResponseEntity<>(ids, HttpStatus.OK);
     }
-    
-    
-    @GetMapping("/listar") 
-    public ResponseEntity<List> getAllTar() { 
-        
-        List<Historico> his = HistoricoService.getHistoricos();
 
-        return new ResponseEntity<>(his, HttpStatus.OK); 
+    @GetMapping("/listar")
+    public ResponseEntity<List> getAllTar() {
+
+        return new ResponseEntity<>(historicoService.listarHistorico(), HttpStatus.OK);
     }
-    
+
     @PostMapping("/adicionar")
     public ResponseEntity<Historico> addAnalise(@RequestBody Historico his) {
         Historico novaTarefa = historicoService.criarTarefa(his);
         return new ResponseEntity<>(novaTarefa, HttpStatus.CREATED);
     }
-    
+
     @GetMapping("/pesquisar/{id}")
-    public ResponseEntity<Historico> getTarefaById(@PathVariable Integer id) { 
+    public ResponseEntity<Historico> getTarefaById(@PathVariable Integer id) {
 
-        Historico his = historicoService.getTarefaById(id); 
+        Historico his = historicoService.getTarefaById(id);
 
-        return new ResponseEntity<>(his, HttpStatus.OK); 
+        return new ResponseEntity<>(his, HttpStatus.OK);
     }
-    
+
     @DeleteMapping("/dell/{id}")
-    public ResponseEntity<String> dellAt(@PathVariable Integer id){
+    public ResponseEntity<String> dellAt(@PathVariable Integer id) {
         boolean foiRemovido = historicoService.deletarTarefa(id);
 
         if (foiRemovido) {
@@ -74,7 +72,7 @@ public class HistoricoController {
             return new ResponseEntity<>("Tarefa não encontrada", HttpStatus.NOT_FOUND);
         }
     }
-    
+
     @PutMapping("/editar/{id}")
     public ResponseEntity<Historico> editarTarefa(@PathVariable Integer id, @RequestBody Historico novaTarefa) {
         Historico tarefaEditada = historicoService.editarTar(id, novaTarefa);
@@ -84,27 +82,22 @@ public class HistoricoController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    
+
     @PostMapping("/recTar/{id}")
     public ResponseEntity<String> recuperarTarefa(@PathVariable Integer id) {
         boolean sucesso = htService.moverParaTarefas(id);
-        
+
         if (sucesso) {
             return ResponseEntity.ok("Tarefa recuperada com sucesso.");
         } else {
             return ResponseEntity.badRequest().body("Falha ao recuperar tarefa.");
         }
     }
-    
-    @GetMapping("/")
-    public String Menu(){
-        return "index";
-    }
-    
+
     @GetMapping("/cadAt")
-    public String cadAt(Historico ati, @RequestParam(required = false) String tit, @RequestParam(required = false) String dat, @RequestParam(required = false) String des, @RequestParam(required = false) String sta){
-        historicoService.cadAt(ati, tit, dat, des, sta);
-        
-        return"index";
+    public String cadAt(Historico ati, @RequestParam(required = false) Integer usId, @RequestParam(required = false) String tit, @RequestParam(required = false) String dat, @RequestParam(required = false) String des, @RequestParam(required = false) String sta) {
+        historicoService.cadAt(ati, usId, tit, dat, des, sta);
+
+        return "index";
     }
 }
