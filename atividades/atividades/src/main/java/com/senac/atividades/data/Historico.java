@@ -5,8 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * Serve como entidade para definir o formato dos dados armazenados.
  *
- * @author TheDe
+ * @author MGaukken__
  */
 @Data
 @AllArgsConstructor

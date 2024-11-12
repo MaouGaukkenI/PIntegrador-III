@@ -12,8 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
+ * Metodos que nescessitam tando do HistoricoService quanto do TarefaService.
  *
- * @author TheDe
+ * @author MGaukken__
  */
 @Service
 public class HTService {
@@ -24,6 +25,13 @@ public class HTService {
     @Autowired
     private TarefaService tarefaService;
 
+    /**
+     * Move uma tarefa da aba de tarefas para o historico, de acordo com o id da
+     * tarefa.
+     *
+     * @param id
+     * @return
+     */
     public boolean moverParaHistorico(Integer id) {
         Tarefa tarefa = tarefaService.getTarefaById(id);
         if (tarefa != null) {
@@ -43,6 +51,13 @@ public class HTService {
         return false;
     }
 
+    /**
+     * Move uma tarefa do historico para a aba de tarefas, de acordo com o id da
+     * tarefa.
+     *
+     * @param id
+     * @return
+     */
     public boolean moverParaTarefas(Integer id) {
         Historico historico = historicoService.getTarefaById(id);
         if (historico != null) {

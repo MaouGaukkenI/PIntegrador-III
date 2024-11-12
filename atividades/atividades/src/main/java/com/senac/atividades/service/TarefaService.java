@@ -10,15 +10,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  *
- * @author TheDe
+ * @author MGaukken__
  */
 @Service
 public class TarefaService {
 
     private static List<Tarefa> tarefas = new ArrayList<>();
 
+    /**
+     * Cria a lista com as tarefas para teste!
+     */
     public TarefaService() {
-        // Inicializa tarefas com dados estáticos
         tarefas.add(new Tarefa(1, 1, "atividade1", "2005-07-11", "Atividade teste 1", "ativa"));
         tarefas.add(new Tarefa(2, 1, "atividade2", "2005-07-11", "Atividade teste 2", "ativa"));
         tarefas.add(new Tarefa(3, 1, "atividade3", "2005-07-11", "Atividade teste 3", "ativa"));
@@ -61,11 +63,21 @@ public class TarefaService {
         tarefas.add(new Tarefa(40, 1, "atividade40", "2005-07-11", "Atividade teste 40", "ativa"));
     }
 
+    /**
+     * Cria uma lista com todas tarefas presentes na aba de tarefas.
+     *
+     * @return Lista retornada.
+     */
     public List<Tarefa> listarTarefas() {
         List<Tarefa> tar = getTarefas();
         return tar;
     }
 
+    /**
+     * Retorna uma lista com todos os ids cadastrados na aba de tarefas.
+     *
+     * @return Lista retornada.
+     */
     public List<Integer> findAllIds() {
         List<Integer> ids = new ArrayList<>();
         for (Tarefa tarefa : getTarefas()) {
@@ -74,6 +86,12 @@ public class TarefaService {
         return ids;
     }
 
+    /**
+     * Retorna uma tarefa da aba de tarefas de acordo com o id enviado.
+     *
+     * @param id utilizado para determinar qual tarefa foi selecionada.
+     * @return uma tarefa com o id enviado.
+     */
     public Tarefa getTarefaById(Integer id) {
         for (Tarefa tarefa : tarefas) {
             if (Objects.equals(id, tarefa.getId())) {
@@ -83,6 +101,12 @@ public class TarefaService {
         return null;
     }
 
+    /**
+     * Permite criar uma tarefa na aba de tarefas.
+     *
+     * @param tar entidade de formatação.
+     * @return a tarefa que foi adicionada em JSON.
+     */
     public Tarefa criarTarefa(Tarefa tar) {
         List<Integer> allIds = findAllIds();
         Integer missingId = findMissingId(allIds);
@@ -98,27 +122,45 @@ public class TarefaService {
         return tar;
     }
 
-    public Tarefa cadAt(@Valid @RequestBody Tarefa ati, Integer idUser, String tit, String dat, String des, String sta) {
+    /**
+     * Permite criar uma tarefa na aba de tarefas utilizando o metodo GET.
+     *
+     * @param tar entidade de formatação
+     * @param idUser id do usuario.
+     * @param tit titulo da tarefa.
+     * @param dat data para finalização da tarefa.
+     * @param des descrição da tarefa.
+     * @param sta status da tarefa.
+     * @return a tarefa que foi adicionada em JSON
+     */
+    public Tarefa cadAt(@Valid @RequestBody Tarefa tar, Integer idUser, String tit, String dat, String des, String sta) {
         List<Integer> allIds = findAllIds();
 
         Integer missingId = findMissingId(allIds);
 
         if (missingId != null) {
-            ati.setId(missingId);
+            tar.setId(missingId);
         } else {
             int nextid = allIds.isEmpty() ? 1 : allIds.stream().max(Integer::compare).get() + 1;
-            ati.setId(nextid);
+            tar.setId(nextid);
         }
 
-        ati.setUserId(idUser);
-        ati.setTitulo(tit);
-        ati.setDatat(dat);
-        ati.setDescricao(des);
-        ati.setStatust(sta);
+        tar.setUserId(idUser);
+        tar.setTitulo(tit);
+        tar.setDatat(dat);
+        tar.setDescricao(des);
+        tar.setStatust(sta);
 
-        return ati;
+        return tar;
     }
 
+    /**
+     * Mecanismo para buscar um id vago em meio a uma lista com os ids
+     * cadastrados.
+     *
+     * @param ids Lista com os ids.
+     * @return um id livre.
+     */
     public Integer findMissingId(List<Integer> ids) {
         int n = ids.size();
         for (int i = 1; i <= n + 1; i++) {
@@ -129,6 +171,14 @@ public class TarefaService {
         return null;
     }
 
+    /**
+     * Permite que uma tarefa da aba de tarefas seja editada de acordo com o id
+     * enviado.
+     *
+     * @param id utilizado para determinar qual tarefa foi selecionada.
+     * @param t entidade de formatação.
+     * @return a tarefa editada em JSON.
+     */
     public Tarefa editarTar(Integer id, Tarefa t) {
         Tarefa tar = getTarefaById(id);
 
@@ -142,19 +192,25 @@ public class TarefaService {
         return tar;
     }
 
+    /**
+     * Permite excluir permanentemente uma tarefa da aba de tarefas.
+     *
+     * @param id utilizado para determinar qual tarefa foi selecionada.
+     * @return um booleando com status de sucesso do metodo.
+     */
     public boolean deletarTarefa(Integer id) {
         return tarefas.removeIf(tarefa -> tarefa.getId().equals(id));
     }
 
     /**
-     * @return the tarefas
+     * @return retorna as tareas
      */
     public static List<Tarefa> getTarefas() {
         return tarefas;
     }
 
     /**
-     * @param aTarefas the tarefas to set
+     * @param aTarefas define as tarefas
      */
     public static void setTarefas(List<Tarefa> aTarefas) {
         tarefas = aTarefas;

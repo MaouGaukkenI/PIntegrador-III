@@ -16,13 +16,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  *
- * @author TheDe
+ * @author MGaukken__
  */
 @Service
 public class HistoricoService {
 
     private static List<Historico> historicos = new ArrayList<>();
 
+    /**
+     * Cria a lista com as tarefas para teste!
+     */
     public HistoricoService() {
         historicos.add(new Historico(1, 1, "atividade1", "2005-07-11", "Atividade teste 1", "Finalizada"));
         historicos.add(new Historico(2, 1, "atividade2", "2005-07-11", "Atividade teste 2", "Finalizada"));
@@ -67,11 +70,23 @@ public class HistoricoService {
 
     }
 
+    /**
+     * Cria uma lista com todas tarefas presentes no historico.
+     *
+     * @return Lista retornada.
+     */
     public List<Historico> listarHistorico() {
         List<Historico> his = getHistoricos();
         return his;
     }
 
+    /**
+     * Mecanismo para buscar um id vago em meio a uma lista com os ids
+     * cadastrados.
+     *
+     * @param ids Lista com os ids.
+     * @return um id livre.
+     */
     public Integer findMissingId(List<Integer> ids) {
         int n = ids.size();
         for (int i = 1; i <= n + 1; i++) {
@@ -82,6 +97,11 @@ public class HistoricoService {
         return null;
     }
 
+    /**
+     * Retorna uma lista com todos os ids cadastrados no historico.
+     *
+     * @return Lista retornada.
+     */
     public List<Integer> findAllIds() {
         List<Integer> ids = new ArrayList<>();
         for (Historico his : getHistoricos()) {
@@ -90,6 +110,12 @@ public class HistoricoService {
         return ids;
     }
 
+    /**
+     * Retorna uma tarefa do historico de acordo com o id enviado.
+     *
+     * @param id utilizado para determinar qual tarefa foi selecionada.
+     * @return uma tarefa com o id enviado.
+     */
     public Historico getTarefaById(Integer id) {
         for (Historico his : historicos) {
             if (Objects.equals(id, his.getId())) {
@@ -99,6 +125,12 @@ public class HistoricoService {
         return null;
     }
 
+    /**
+     * Permite criar uma tarefa no historico.
+     *
+     * @param his entidade de formatação.
+     * @return a tarefa que foi adicionada em JSON.
+     */
     public Historico criarTarefa(Historico his) {
         List<Integer> allIds = findAllIds();
         Integer missingId = findMissingId(allIds);
@@ -114,6 +146,17 @@ public class HistoricoService {
         return his;
     }
 
+    /**
+     * Permite criar uma tarefa no historico utilizando o metodo GET.
+     *
+     * @param his entidade de formatação
+     * @param idUser id do usuario.
+     * @param tit titulo da tarefa.
+     * @param dat data para finalização da tarefa.
+     * @param des descrição da tarefa.
+     * @param sta status da tarefa.
+     * @return a tarefa que foi adicionada em JSON
+     */
     public Historico cadAt(@Valid @RequestBody Historico his, Integer idUser, String tit, String dat, String des, String sta) {
         List<Integer> allIds = findAllIds();
 
@@ -135,6 +178,14 @@ public class HistoricoService {
         return his;
     }
 
+    /**
+     * Permite que uma tarefa do historico seja editada de acordo com o id
+     * enviado.
+     *
+     * @param id utilizado para determinar qual tarefa foi selecionada.
+     * @param h entidade de formatação.
+     * @return a tarefa editada em JSON.
+     */
     public Historico editarTar(Integer id, Historico h) {
         Historico his = getTarefaById(id);
 
@@ -149,19 +200,25 @@ public class HistoricoService {
         return null;
     }
 
+    /**
+     * Permite excluir permanentemente uma tarefa do historico.
+     *
+     * @param id utilizado para determinar qual tarefa foi selecionada.
+     * @return um booleando com status de sucesso do metodo.
+     */
     public boolean deletarTarefa(Integer id) {
         return historicos.removeIf(historico -> historico.getId().equals(id));
     }
 
     /**
-     * @return the historicos
+     * @return retorna o historico
      */
     public static List<Historico> getHistoricos() {
         return historicos;
     }
 
     /**
-     * @param aHistoricos the historicos to set
+     * @param aHistoricos define o historico
      */
     public static void setHistoricos(List<Historico> aHistoricos) {
         historicos = aHistoricos;
