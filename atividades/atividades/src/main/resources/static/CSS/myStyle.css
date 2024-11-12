@@ -43,6 +43,7 @@ main{
     display: flex;
     flex-direction: column;
     border-radius: 4vh;
+    height: 82vh;
 }
 /*Layout da Tabela*/
 table{
@@ -104,4 +105,18 @@ ul{
 }
 .item-menu a {
     align-items: center;
+}
+/*Footer*/
+footer{
+    height: 8vh;
+    font-size: 2vh;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    align-content: center;
+    z-index: 15;
+    background-color: white;
+    border: .25vh solid black;
 }
