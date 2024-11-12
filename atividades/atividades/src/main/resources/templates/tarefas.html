@@ -77,7 +77,7 @@
                         <div class="EspaçadorIvh"></div>
                         <div style="display: flex; flex-direction: column">
                             <label for="datat">Data Final:</label>
-                            <input type="date" name="datat" id="datatA" required style="font-size: 3vh"/>
+                            <input type="datetime-local" name="datat" id="datatA" required style="font-size: 3vh"/>
                             <label for="statust">Status:</label>
                             <input type="hidden" name="statust" id="txtStatusA"/>
                             <button type="submit" style="font-size: 3vh">Salvar Alterações</button>
@@ -128,7 +128,25 @@
 
                 let editOn = false;
                 let endOn = false;
+                
+                function formatarData(dataISO) {
+                    const dataObj = new Date(dataISO);
 
+                    const dia = String(dataObj.getDate()).padStart(2, '0');
+                    const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
+                    const ano = dataObj.getFullYear();
+                    const horas = String(dataObj.getHours()).padStart(2, '0');
+                    const minutos = String(dataObj.getMinutes()).padStart(2, '0');
+
+                    return `${dia}/${mes}/${ano} Hr${horas}:${minutos}`;
+                }
+                
+                document.querySelectorAll(".DataEdit").forEach(cell => {
+                    const dataISO = cell.textContent.trim();
+                    cell.textContent = formatarData(dataISO);
+                    
+                });
+                
                 function showForm(form) {
                     editForm.classList.add("hidden");
                     addForm.classList.add("hidden");

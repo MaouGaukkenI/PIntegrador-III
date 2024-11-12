@@ -53,6 +53,7 @@ table{
 th, td{
     background-color: white;
     border: .25vh solid black;
+    text-align: center;
 }
 .hidden-column{
     display: none;
