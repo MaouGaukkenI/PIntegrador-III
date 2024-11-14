@@ -209,6 +209,15 @@ public class HistoricoService {
     public boolean deletarTarefa(Integer id) {
         return historicos.removeIf(historico -> historico.getId().equals(id));
     }
+    
+    /**
+     * Deleta todas tarefas com o id do usuario enviado.
+     * @param id id do usuario
+     * @return booleno com resultado da execução da função.
+     */
+    public boolean dellByUserID(Integer id) {
+        return historicos.removeIf(historico -> historico.getUserId().equals(id));
+    }
 
     /**
      * @return retorna o historico

@@ -201,6 +201,15 @@ public class TarefaService {
     public boolean deletarTarefa(Integer id) {
         return tarefas.removeIf(tarefa -> tarefa.getId().equals(id));
     }
+    
+    /**
+     * Deleta todas tarefas com o id do usuario enviado.
+     * @param id id do usuario
+     * @return booleno com resultado da execução da função.
+     */
+    public boolean dellByUserID(Integer id) {
+        return tarefas.removeIf(tarefa -> tarefa.getUserId().equals(id));
+    }
 
     /**
      * @return retorna as tareas
