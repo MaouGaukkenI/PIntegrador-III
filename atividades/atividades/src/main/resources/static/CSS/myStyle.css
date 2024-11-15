@@ -7,7 +7,12 @@ body{
     margin: 0;
     background-color: green;
 }
-header{
+.EspaçadorIvh{
+    width: 1vh;
+    height: 1vh;
+}
+/*Edição do header*/
+.top{
     height: 14vh;
     display: flex;
     flex-direction: row;
@@ -20,12 +25,8 @@ header{
     left: 0;
     border: 0.25vh solid black;
 }
-header img{
+.top img{
     margin-left: 1vh;
-}
-.EspaçadorIvh{
-    width: 1vh;
-    height: 1vh;
 }
 /*Ajustes do menu*/
 .divMenu{

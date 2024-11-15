@@ -28,7 +28,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         </style>
     </head>
     <body>
-        <header>
+        <header class="top">
             <img th:src="@{imagens/Logo.png}" width="120vh"/>
         </header>
         <nav>
@@ -145,12 +145,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     rows.forEach (row => {
                         row.addEventListener("click", function () {
                             const id = row.querySelector("td:nth-child(1)").textContent.trim();
+                            const titulo = row.querySelector("td:nth-child(3)").textContent.trim();
                             idG = id;
                             if(dell){
-                                tarSelect.textContent = `ID da tarefa selecionada: ${idG} \nTem certeza que deseja deleta-la?`;
+                                tarSelect.textContent = `Tarefa selecionada: "${titulo}" Tem certeza que deseja deleta-la?`;
                                 showform(dellForm);
                             }else if(rec){
-                                tarSelect.textContent = `ID da tarefa selecionada: ${idG} \nQuer mesmo recuperar a tarefa?`;
+                                tarSelect.textContent = `Tarefa selecionada: "${titulo}" Quer mesmo recuperar a tarefa?`;
                                 showform(recForm);
                             }
                         });

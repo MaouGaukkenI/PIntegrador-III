@@ -24,6 +24,9 @@
     </head>
     <body>
         <header>
+            
+        </header>
+        <header class="top">
             <img th:src="@{/imagens/Logo.png}" width="120vh"/>
         </header>
         <nav>
@@ -208,11 +211,11 @@
                                 document.querySelector("#datatE").value = dataFinal;
                                 document.querySelector("#txtStatusE").value = status;
 
-                                tarSelect.textContent = `ID da tarefa selecionada: ${id}`;
+                                tarSelect.textContent = `Tarefa selecionada: "${titulo}"`;
                                 showForm(editForm);
                             } else if (endOn) {
                                 document.querySelector("#txtIdE").value = id;
-                                tarSelect.textContent = `ID da tarefa selecionada: ${id} \nTem certeza que deseja finalizar esta tarefa?`;
+                                tarSelect.textContent = `Tarefa selecionada: "${titulo}" Tem certeza que deseja finalizar esta tarefa?`;
                                 showForm(endForm);
                             }
                         });
