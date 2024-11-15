@@ -4,10 +4,14 @@
  */
 package com.senac.atividades.service;
 
+import com.senac.atividades.coockie.JwtUtil;
 import com.senac.atividades.data.Usuario;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
@@ -30,6 +34,34 @@ public class UsuarioService {
      */
     public UsuarioService() {
         users.add(new Usuario(1, "Master", "Login1234"));
+        users.add(new Usuario(2, "uTest1", "ab"));
+        users.add(new Usuario(3, "uTest2", "ab"));
+    }
+
+    public ResponseEntity<String> login(String login, String senha, HttpServletResponse response) {
+        Usuario usuario = findByLogin(login);
+        if (usuario != null && usuario.getSenha().equals(senha)) {
+            String token = JwtUtil.generateToken(String.valueOf(usuario.getId()));
+
+            Cookie jwtCookie = new Cookie("jwtToken", token);
+            jwtCookie.setHttpOnly(true);
+            jwtCookie.setPath("/"); 
+            jwtCookie.setMaxAge(86400);
+            response.addCookie(jwtCookie);
+
+            return ResponseEntity.ok("Login realizado com sucesso!");
+        } else {
+            return ResponseEntity.status(401).body("Credenciais inválidas");
+        }
+    }
+
+    public Usuario findByLogin(String login) {
+        for (Usuario user : users) {
+            if (user.getLogin().equals(login)) {
+                return user;
+            }
+        }
+        return null;
     }
 
     /**
@@ -39,8 +71,8 @@ public class UsuarioService {
      */
     public List<String> showUserNames() {
         List<String> Un = new ArrayList<>();
-        for (Usuario tarefa : getUsers()) {
-            Un.add(tarefa.getLogin());
+        for (Usuario user : getUsers()) {
+            Un.add(user.getLogin());
         }
         return Un;
     }

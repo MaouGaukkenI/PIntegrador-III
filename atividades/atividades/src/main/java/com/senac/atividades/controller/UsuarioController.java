@@ -4,8 +4,11 @@
  */
 package com.senac.atividades.controller;
 
+import com.senac.atividades.coockie.JwtUtil;
 import com.senac.atividades.data.Usuario;
 import com.senac.atividades.service.UsuarioService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,7 +32,7 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService userService;
-
+    
     /**
      * Mostra uma lista com o nome dos usuarios em JSON.
      *

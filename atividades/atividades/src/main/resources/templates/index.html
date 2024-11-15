@@ -1,18 +1,64 @@
-<html>
+<html lang="pt-BR">
     <head>
-        <title>Login</title>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login</title>
+
+        <style>
+            body{
+                background-color: green;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            form{
+                width: 90%;
+                height: 85%;
+                background-color: rgb(219, 219, 219);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                border: .5vh solid black;
+                border-radius: 5vh;
+            }
+            input{
+                margin-bottom: 2vh;
+                font-size: 3vh;
+            }
+        </style>
     </head>
     <body>
-        <main>
-            <div>
-                <form action="/Historico" method="get">
-                    <input type="text" placeholder="Informe o nome de usuario" required="">
-                    <input type="password" placeholder="Informe a senha de login" required="">
-                    <button type="submit">Login</button>
-                </form>
-            </div>
-        </main>
+        <form id="loginForm">
+            <input type="text" id="login" placeholder="Usuário" required>
+            <input type="password" id="senha" placeholder="Senha" required>
+            <button type="submit" style="font-size: 3vh;">Login</button>
+        </form>
+
+        <script>
+            document.getElementById("loginForm").addEventListener("submit", async function (e) {
+                e.preventDefault();
+
+                const login = document.getElementById("login").value;
+                const senha = document.getElementById("senha").value;
+
+                alert("Login: " + login + " Senha: " + senha);
+
+                const response = await fetch("http://localhost:8080/login", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({login, senha})
+                });
+
+                if (response.ok) {
+                    alert("Login realizado com sucesso!");
+                    // O token JWT é armazenado automaticamente no cookie pelo servidor
+                    window.location.href = "/Tarefas"; // Redirecione para a página principal
+                } else {
+                    alert("Login falhou, verifique suas credenciais.");
+                }
+            });
+        </script>
     </body>
 </html>

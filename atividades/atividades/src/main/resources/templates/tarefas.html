@@ -40,6 +40,7 @@
         </nav>
         <main>
             <div class="divMenu">
+                <h3 class="ShowUserID" id="ShowUserID">...</h3>
                 <p>Tarefas:</p>
                 <div id="btnFunctions">
                     <button style="font-size: 3vh" id="EditTar">Editar Tarefa</button>
@@ -119,6 +120,7 @@
             document.addEventListener("DOMContentLoaded", function () {
                 const rows = document.querySelectorAll(".movieRow");
                 const tarSelect = document.querySelector("#tarSelect");
+                const userIdShow = document.querySelector("#ShowUserID");
                 const btnEdit = document.querySelector("#EditTar");
                 const btnNew = document.querySelector("#NewTar");
                 const btnFinish = document.querySelector("#FinishTar");
@@ -126,9 +128,34 @@
                 const addForm = document.querySelector(".fncAdd");
                 const endForm = document.querySelector(".fncEnd");
 
+                userIdShow.textContent = "...";
+
                 let editOn = false;
                 let endOn = false;
+
+                let userId;
+
+                async function fetchUserId() {
+                    try {
+                        const response = await fetch("http://localhost:8080/getUserId", {
+                            method: "GET",
+                            credentials: "include"
+                        });
+
+                        if (response.ok) {
+                            userId = await response.text();
+                            userIdShow.textContent = "O id do usuario logado é: " + userId;
+                            alert("O id do usuario logado é: " + userId);
+                        } else {
+                            console.log("Falha ao obter o User ID.");
+                        }
+                    } catch (error) {
+                        console.error("Erro:", error);
+                    }
+                }
                 
+                fetchUserId();
+
                 function formatarData(dataISO) {
                     const dataObj = new Date(dataISO);
 
@@ -140,13 +167,13 @@
 
                     return `${dia}/${mes}/${ano} Hr${horas}:${minutos}`;
                 }
-                
+
                 document.querySelectorAll(".DataEdit").forEach(cell => {
                     const dataISO = cell.textContent.trim();
                     cell.textContent = formatarData(dataISO);
-                    
+
                 });
-                
+
                 function showForm(form) {
                     editForm.classList.add("hidden");
                     addForm.classList.add("hidden");
@@ -217,7 +244,7 @@
                     addForm.classList.add("hidden");
                     editForm.classList.remove("hiddenOff");
                     addForm.classList.remove("hiddenOff");
-                    
+
                     clearSelections();
                     endOn = true;
                     tarSelect.classList.remove("hidden");
