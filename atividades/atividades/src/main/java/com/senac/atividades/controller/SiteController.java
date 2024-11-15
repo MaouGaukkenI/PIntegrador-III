@@ -57,7 +57,7 @@ public class SiteController {
         System.out.println(loginData);
         return userService.login(login, senha, response);
     }
-    
+
     @GetMapping("/getUserId")
     public ResponseEntity<String> getUserId(@CookieValue("jwtToken") String token) {
         try {
@@ -76,9 +76,16 @@ public class SiteController {
     }
 
     @GetMapping("/Tarefas")
-    public String Tarefas(Model model) {
-        model.addAttribute("listarTarefas", tarefaService.listarTarefas());
-        return "tarefas";
+    public String Tarefas(Model model, @CookieValue("jwtToken") String token) {
+        try {
+            Claims claims = JwtUtil.validateToken(token);
+            String userId = claims.getSubject();
+            Integer id = Integer.valueOf(userId);
+            model.addAttribute("listarTarefas", tarefaService.listarTarefasByUId(id));
+            return "tarefas";
+        } catch (NumberFormatException e) {
+            return "redirect:/login";
+        }
     }
 
     @PostMapping("/editar/{id}")

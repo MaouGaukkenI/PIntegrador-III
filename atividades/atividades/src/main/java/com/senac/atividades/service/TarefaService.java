@@ -72,6 +72,22 @@ public class TarefaService {
         List<Tarefa> tar = getTarefas();
         return tar;
     }
+    
+    /**
+     * Cria uma lista com as tarefas de um usuario especifico.
+     *
+     * @param id id do usuario para busca.
+     * @return Lista retornada.
+     */
+    public List<Tarefa> listarTarefasByUId(Integer id) {
+        List<Tarefa> tar = new ArrayList<>();
+        for (Tarefa tarefa : tarefas) {
+            if (Objects.equals(id, tarefa.getUserId())) {
+                tar.add(tarefa);
+            }
+        }
+        return tar;
+    }
 
     /**
      * Retorna uma lista com todos os ids cadastrados na aba de tarefas.

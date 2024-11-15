@@ -40,7 +40,6 @@
         </nav>
         <main>
             <div class="divMenu">
-                <h3 class="ShowUserID" id="ShowUserID">...</h3>
                 <p>Tarefas:</p>
                 <div id="btnFunctions">
                     <button style="font-size: 3vh" id="EditTar">Editar Tarefa</button>
@@ -52,6 +51,7 @@
                     <form id="form-editar" style="display: flex; flex-direction: row">
                         <div style="display: flex; flex-direction: column">
                             <input type="hidden" id="txtIdE" name="id"/>
+                            <input type="hidden" id="txtUserIdE" name="userId"/>
                             <label for="titulo">Título:</label>
                             <input type="text" name="titulo" id="tituloE" required style="font-size: 3vh"/>
                             <label for="descricao">Descrição:</label>
@@ -70,6 +70,7 @@
                 <div class="fncAdd hidden" style="justify-content: center;">
                     <form action="/AddTar" method="post" style="display: flex; flex-direction: row">
                         <div style="display: flex; flex-direction: column">
+                            <input type="hidden" id="txtUserIdA" name="userId"/>
                             <label for="titulo">Título:</label>
                             <input type="text" name="titulo" id="tituloA" required style="font-size: 3vh"/>
                             <label for="descricao">Descrição:</label>
@@ -120,15 +121,12 @@
             document.addEventListener("DOMContentLoaded", function () {
                 const rows = document.querySelectorAll(".movieRow");
                 const tarSelect = document.querySelector("#tarSelect");
-                const userIdShow = document.querySelector("#ShowUserID");
                 const btnEdit = document.querySelector("#EditTar");
                 const btnNew = document.querySelector("#NewTar");
                 const btnFinish = document.querySelector("#FinishTar");
                 const editForm = document.querySelector(".fncEdit");
                 const addForm = document.querySelector(".fncAdd");
                 const endForm = document.querySelector(".fncEnd");
-
-                userIdShow.textContent = "...";
 
                 let editOn = false;
                 let endOn = false;
@@ -144,8 +142,7 @@
 
                         if (response.ok) {
                             userId = await response.text();
-                            userIdShow.textContent = "O id do usuario logado é: " + userId;
-                            alert("O id do usuario logado é: " + userId);
+                            alert(userId);
                         } else {
                             console.log("Falha ao obter o User ID.");
                         }
@@ -206,6 +203,7 @@
                             if (editOn) {
                                 // Exibe dados no formulário de edição
                                 document.querySelector("#txtIdE").value = id;
+                                document.querySelector("#txtUserIdE").value = userId;
                                 document.querySelector("#tituloE").value = titulo;
                                 document.querySelector("#descricaoE").value = descricao;
                                 document.querySelector("#datatE").value = dataFinal;
@@ -232,6 +230,7 @@
 
                 btnNew.addEventListener("click", function () {
                     clearSelections();
+                    document.querySelector("#txtUserIdA").value = userId;
                     document.querySelector("#tituloA").value = "";
                     document.querySelector("#descricaoA").value = "";
                     document.querySelector("#datatA").value = "";

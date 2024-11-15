@@ -43,8 +43,6 @@
                 const login = document.getElementById("login").value;
                 const senha = document.getElementById("senha").value;
 
-                alert("Login: " + login + " Senha: " + senha);
-
                 const response = await fetch("http://localhost:8080/login", {
                     method: "POST",
                     headers: {"Content-Type": "application/json"},
@@ -52,9 +50,7 @@
                 });
 
                 if (response.ok) {
-                    alert("Login realizado com sucesso!");
-                    // O token JWT é armazenado automaticamente no cookie pelo servidor
-                    window.location.href = "/Tarefas"; // Redirecione para a página principal
+                    window.location.href = "/Tarefas";
                 } else {
                     alert("Login falhou, verifique suas credenciais.");
                 }
