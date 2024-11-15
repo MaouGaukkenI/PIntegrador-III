@@ -79,6 +79,22 @@ public class HistoricoService {
         List<Historico> his = getHistoricos();
         return his;
     }
+    
+        /**
+     * Cria uma lista com as tarefas de um usuario especifico.
+     *
+     * @param id id do usuario para busca.
+     * @return Lista retornada.
+     */
+    public List<Historico> listarHistoricoByUId(Integer id) {
+        List<Historico> his = new ArrayList<>();
+        for (Historico hist : historicos) {
+            if (Objects.equals(id, hist.getUserId())) {
+                his.add(hist);
+            }
+        }
+        return his;
+    }
 
     /**
      * Mecanismo para buscar um id vago em meio a uma lista com os ids

@@ -70,9 +70,16 @@ public class SiteController {
     }
 
     @GetMapping("/Historico")
-    public String Historico(Model model) {
-        model.addAttribute("listarTarefas", historicoService.listarHistorico());
-        return "historico";
+    public String Historico(Model model, @CookieValue("jwtToken") String token) {
+        try {
+            Claims claims = JwtUtil.validateToken(token);
+            String userId = claims.getSubject();
+            Integer id = Integer.valueOf(userId);
+            model.addAttribute("listarTarefas", historicoService.listarHistoricoByUId(id));
+            return "historico";
+        } catch (NumberFormatException e) {
+            return "redirect:/";
+        }
     }
 
     @GetMapping("/Tarefas")
@@ -84,7 +91,7 @@ public class SiteController {
             model.addAttribute("listarTarefas", tarefaService.listarTarefasByUId(id));
             return "tarefas";
         } catch (NumberFormatException e) {
-            return "redirect:/login";
+            return "redirect:/";
         }
     }
 
