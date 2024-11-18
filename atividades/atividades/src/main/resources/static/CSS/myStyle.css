@@ -44,7 +44,7 @@ main{
     display: flex;
     flex-direction: column;
     border-radius: 4vh;
-    height: 82vh;
+    height: 73vh;
 }
 /*Layout da Tabela*/
 table{
@@ -60,7 +60,7 @@ th, td{
     display: none;
 }
 .table-container{
-    max-height: 30vh;
+    max-height: 25vh;
     overflow-x: auto;
     border: 0.5vh solid black;
 }

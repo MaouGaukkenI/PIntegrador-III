@@ -1,0 +1,85 @@
+.caseUserName{
+    background-color: rgb(219, 219, 219);
+    z-index: 100;
+    min-width: 14vh;
+    max-width: 30vh;
+    top: 0;
+    right: 0;
+    position: fixed;
+    margin-top: 4vh;
+    margin-right: 2vh;
+    height: 6vh;
+    font-size: 4vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: .3vh solid;
+    cursor: pointer;
+}
+.UserSettings{
+    top: .5vh;
+    right: .5vh;
+    background-color: rgb(219, 219, 219);
+    z-index: 101;
+    position: fixed;
+    border: .3vh solid;
+    padding: 1vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 40vh;
+}
+.userName{
+    font-size: 4vh;
+    margin: 0;
+}
+.btnUserSettings{
+    width: 95%;
+    height: 5vh;
+    font-size: 3vh;
+    border: .25vh solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2vh;
+    cursor: pointer;
+}
+.editUserArea{
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    position: fixed;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.editUserCampo{
+    background-color: rgb(219, 219, 219);
+    width: 40vh;
+    height: 60vh;
+    border: .5vh solid black;
+    border-radius: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.inputUserSettings{
+    width: 30vh;
+    height: 4vh;
+    margin-top: 1vh;
+}
+.buttonUserSettings{
+    width: 20vh;
+    height: 4vh;
+    margin-top: 1vh;
+}
+/*Configurações especificas*/
+.divfuncUser{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

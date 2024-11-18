@@ -41,19 +41,27 @@ public class UsuarioService {
     public ResponseEntity<String> login(String login, String senha, HttpServletResponse response) {
         Usuario usuario = findByLogin(login);
         if (usuario != null && usuario.getSenha().equals(senha)) {
-            String token = JwtUtil.generateToken(String.valueOf(usuario.getId()));
+            String tokenId = JwtUtil.generateToken(String.valueOf(usuario.getId()));
+            String tokenUser = JwtUtil.generateToken(String.valueOf(usuario.getLogin()));
 
-            Cookie jwtCookie = new Cookie("jwtToken", token);
-            jwtCookie.setHttpOnly(true);
-            jwtCookie.setPath("/"); 
-            jwtCookie.setMaxAge(86400);
-            response.addCookie(jwtCookie);
+            Cookie jwtCookieI = new Cookie("jwtTokenId", tokenId);
+            jwtCookieI.setHttpOnly(true);
+            jwtCookieI.setPath("/"); 
+            jwtCookieI.setMaxAge(86400);
+            response.addCookie(jwtCookieI);
+
+            Cookie jwtCookieU = new Cookie("jwtTokenUser", tokenUser);
+            jwtCookieU.setHttpOnly(true);
+            jwtCookieU.setPath("/"); 
+            jwtCookieU.setMaxAge(86400);
+            response.addCookie(jwtCookieU);
 
             return ResponseEntity.ok("Login realizado com sucesso!");
         } else {
             return ResponseEntity.status(401).body("Credenciais inválidas");
         }
     }
+    
 
     public Usuario findByLogin(String login) {
         for (Usuario user : users) {
@@ -146,5 +154,24 @@ public class UsuarioService {
      */
     public static List<Usuario> getUsers() {
         return users;
+    }
+    
+    /**
+     * Permite que uma tarefa da aba de tarefas seja editada de acordo com o id
+     * enviado.
+     *
+     * @param login utilizado para determinar qual usuario foi selecionado.
+     * @param u entidade de formatação.
+     * @return a tarefa editada em JSON.
+     */
+    public Usuario editarTar(String login, Usuario u) {
+        Usuario user = findByLogin(login);
+
+        if (user != null) {
+            user.setLogin(u.getLogin());
+            user.setSenha(u.getSenha());
+        }
+        System.out.println("Os dados enviados pelo json são:" + user);
+        return user;
     }
 }

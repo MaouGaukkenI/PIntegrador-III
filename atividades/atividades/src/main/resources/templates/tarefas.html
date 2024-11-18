@@ -5,6 +5,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link th:href="@{/css/myStyle.css}" rel="stylesheet" type="text/css"/>
+        <link th:href="@{/css/UserSettings.css}" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <style>
             #btnTar {
@@ -23,9 +24,81 @@
         </style>
     </head>
     <body>
-        <header>
-            
-        </header>
+        <button class="caseUserName" id="caseUserName" style="font-size: 4vh;">
+            <p class="userName"></p>
+        </button>
+        <div class="UserSettings hidden" id="UserSettings">
+            <p class="userName">...</p>
+            <div class="btnUserSettings" id="editarOpen">Editar Usuario</div>
+            <div class="btnUserSettings" id="deslogar">Deslogar</div>
+            <div class="btnUserSettings" id="dellUser" style="color: red;">Excluir usuario</div>
+            <button id="closeMenuUser" style="font-size: 8vh;margin: -2vh;margin-top: 1vh;margin-left: 21vh;height: 6vh;width: 15vh;text-align: end;border: none;background-color: rgba(0, 0, 0, 0);">^</button>
+        </div>
+        <div class="editUserArea hidden" id="editUserArea">
+            <button id="closeEditUser" style="color: white;font-size: 10vh;border: none;background-color: rgba(0, 0, 0, 0);position: fixed;top: 2vh;right: 2vh;">X</button>
+            <div class="editUserCampo" id="editarUsuario">
+                <div class="divfuncUser hidden" id="credenciais">
+                    <p style="font-size: 3vh; margin: 0">Confirme a senha de usuario:</p>
+                    <form id="loginForm" style="display: flex; flex-direction: column; align-items: center;">
+                        <input type="hidden" id="userNameGet"></input>
+                        <input class="inputUserSettings" id="txtSenha" type="password" style="font-size: 3vh"></input>
+                        <button class="buttonUserSettings" id="login" type="submit" style="font-size: 3vh">Confirmar</button>
+                    </form>
+                </div>
+                <div class="divfuncUser hidden" id="ErroUS">
+                    <p style="font-size: 3vh; margin: 0">Senha de usuario incorreta</p>
+                    <div style="    display: flex; justify-content: center; align-items: center; width: 90%;">
+                        <button id="TN" class="buttonUserSettings" style="font-size: 1.78vh">Tentar novamente</button>
+                        <div class="EspaçadorIvh"></div>
+                        <button id="Ca" class="buttonUserSettings" style="font-size: 3vh">Cancelar</button>
+                    </div>
+                </div>
+                <div class="divfuncUser hidden" id="SelecionarFuncao">
+                    <button class="buttonUserSettings" id="EUser" type="button" style="font-size: 2.9vh">Editar usuario</button>
+                    <button class="buttonUserSettings" id="ESenha" type="button" style="font-size: 3vh">Editar senha</button>
+                </div>
+                <div class="divfuncUser hidden" id="EditarUsuario" >
+                    <p style="font-size: 3vh; margin: 0">Insira um novo nome de usuario</p>
+                    <form id="editarLogin" style="display: flex; flex-direction: column; align-items: center;">
+                        <input id="novoLogin" class="inputUserSettings" type="text" placeholder="Novo Login" style="font-size: 3vh"></input>
+                        <input id="senhaOculta" type="hidden"></<input>
+                        <button class="buttonUserSettings" type="submit" style="font-size: 3vh">Confirmar</button>
+                    </form> 
+                </div>
+                <div class="divfuncUser hidden" id="EditarSenha">
+                    <p style="font-size: 3vh; margin: 0">Nova senha</p>
+                    <form id="editarSenha" style="display: flex; flex-direction: column; align-items: center;">
+                        <input id="loginOculta" type="hidden"></<input>
+                        <input id="novaSenha" class="inputUserSettings" type="password" placeholder="Nova Senha" style="font-size: 3vh"></input>
+                        <button class="buttonUserSettings" type="submit" style="font-size: 3vh">Confirmar</button>
+                    </form>
+                </div>
+
+                <div class="divfuncUser hidden" id="credenciaisDell">
+                    <p style="font-size: 3vh; margin: 0">Confirme a senha de usuario:</p>
+                    <form id="loginFormDell" style="display: flex; flex-direction: column; align-items: center;">
+                        <input type="hidden" id="userNameGetD"></input>
+                        <input class="inputUserSettings" id="txtSenhaD" type="password" style="font-size: 3vh"></input>
+                        <button class="buttonUserSettings" id="loginD" type="submit" style="font-size: 3vh">Confirmar</button>
+                    </form>
+                </div>
+                <div class="divfuncUser hidden" id="ErroUSDell">
+                    <p style="font-size: 3vh; margin: 0">Senha de usuario incorreta</p>
+                    <div style="    display: flex; justify-content: center; align-items: center; width: 90%;">
+                        <button id="TND" class="buttonUserSettings" style="font-size: 1.78vh">Tentar novamente</button>
+                        <div class="EspaçadorIvh"></div>
+                        <button id="CaD" class="buttonUserSettings" style="font-size: 3vh">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+            <div class="divfuncUser hidden" id="finish" style="color: black; font-size: 10vh; background-color: white">
+                <p>Login bem sucedido! Volte para a tela de login</p>
+                <button id="btnFim" style="font-size: 10vh">OK!</button>
+            </div>
+        </div>
+        
+        
+        
         <header class="top">
             <img th:src="@{/imagens/Logo.png}" width="120vh"/>
         </header>
@@ -55,16 +128,16 @@
                         <div style="display: flex; flex-direction: column">
                             <input type="hidden" id="txtIdE" name="id"/>
                             <input type="hidden" id="txtUserIdE" name="userId"/>
-                            <label for="titulo">Título:</label>
+                            <label for="tituloE">Título:</label>
                             <input type="text" name="titulo" id="tituloE" required style="font-size: 3vh"/>
-                            <label for="descricao">Descrição:</label>
+                            <label for="descricaoE">Descrição:</label>
                             <textarea name="descricao" id="descricaoE" required style="font-size: 3vh"></textarea>    
                         </div>
                         <div class="EspaçadorIvh"></div>
                         <div style="display: flex; flex-direction: column">
-                            <label for="datat">Data Final:</label>
+                            <label for="datatE">Data Final:</label>
                             <input type="date" name="datat" id="datatE" required style="font-size: 3vh"/>
-                            <label for="statust">Status:</label>
+                            <label for="statustE">Status:</label>
                             <input type="hidden" name="statust" id="txtStatusE"/>
                             <button type="submit" style="font-size: 3vh">Salvar Alterações</button>
                         </div>
@@ -74,16 +147,16 @@
                     <form action="/AddTar" method="post" style="display: flex; flex-direction: row">
                         <div style="display: flex; flex-direction: column">
                             <input type="hidden" id="txtUserIdA" name="userId"/>
-                            <label for="titulo">Título:</label>
+                            <label for="tituloA">Título:</label>
                             <input type="text" name="titulo" id="tituloA" required style="font-size: 3vh"/>
-                            <label for="descricao">Descrição:</label>
+                            <label for="descricaoA">Descrição:</label>
                             <textarea name="descricao" id="descricaoA" required style="font-size: 3vh"></textarea>    
                         </div>
                         <div class="EspaçadorIvh"></div>
                         <div style="display: flex; flex-direction: column">
-                            <label for="datat">Data Final:</label>
+                            <label for="datatA">Data Final:</label>
                             <input type="datetime-local" name="datat" id="datatA" required style="font-size: 3vh"/>
-                            <label for="statust">Status:</label>
+                            <label for="statustA">Status:</label>
                             <input type="hidden" name="statust" id="txtStatusA"/>
                             <button type="submit" style="font-size: 3vh">Salvar Alterações</button>
                         </div>
@@ -120,187 +193,8 @@
         </main>
         <footer>Todos direitos reservados a Diogo Borchhardt Beloni</footer>
 
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const rows = document.querySelectorAll(".movieRow");
-                const tarSelect = document.querySelector("#tarSelect");
-                const btnEdit = document.querySelector("#EditTar");
-                const btnNew = document.querySelector("#NewTar");
-                const btnFinish = document.querySelector("#FinishTar");
-                const editForm = document.querySelector(".fncEdit");
-                const addForm = document.querySelector(".fncAdd");
-                const endForm = document.querySelector(".fncEnd");
+        <script th:src="@{/JS/fUser.js}"></script>
 
-                let editOn = false;
-                let endOn = false;
-
-                let userId;
-
-                async function fetchUserId() {
-                    try {
-                        const response = await fetch("http://localhost:8080/getUserId", {
-                            method: "GET",
-                            credentials: "include"
-                        });
-
-                        if (response.ok) {
-                            userId = await response.text();
-                        } else {
-                            console.log("Falha ao obter o User ID.");
-                        }
-                    } catch (error) {
-                        console.error("Erro:", error);
-                    }
-                }
-                
-                fetchUserId();
-
-                function formatarData(dataISO) {
-                    const dataObj = new Date(dataISO);
-
-                    const dia = String(dataObj.getDate()).padStart(2, '0');
-                    const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
-                    const ano = dataObj.getFullYear();
-                    const horas = String(dataObj.getHours()).padStart(2, '0');
-                    const minutos = String(dataObj.getMinutes()).padStart(2, '0');
-
-                    return `${dia}/${mes}/${ano} Hr${horas}:${minutos}`;
-                }
-
-                document.querySelectorAll(".DataEdit").forEach(cell => {
-                    const dataISO = cell.textContent.trim();
-                    cell.textContent = formatarData(dataISO);
-
-                });
-
-                function showForm(form) {
-                    editForm.classList.add("hidden");
-                    addForm.classList.add("hidden");
-                    endForm.classList.add("hidden");
-                    editForm.classList.remove("hiddenOff");
-                    addForm.classList.remove("hiddenOff");
-                    endForm.classList.remove("hiddenOff");
-
-                    form.classList.remove("hidden");
-                    form.classList.add("hiddenOff");
-                }
-
-                function clearSelections() {
-                    tarSelect.classList.add("hidden");
-                    tarSelect.textContent = "Clique em uma tarefa da tabela para selecioná-la";
-                    editOn = false;
-                    endOn = false;
-                }
-
-                // Função para alternar as ações nos rows da tabela com base no contexto (editOn, endOn)
-                function setupRowClickActions() {
-                    rows.forEach(row => {
-                        row.addEventListener("click", function () {
-                            const id = row.querySelector("td:nth-child(1)").textContent.trim();
-                            const titulo = row.querySelector("td:nth-child(3)").textContent.trim();
-                            const descricao = row.querySelector("td:nth-child(4)").textContent.trim();
-                            const dataFinal = row.querySelector("td:nth-child(5)").textContent.trim();
-                            const status = row.querySelector("td:nth-child(6)").textContent.trim();
-
-                            if (editOn) {
-                                // Exibe dados no formulário de edição
-                                document.querySelector("#txtIdE").value = id;
-                                document.querySelector("#txtUserIdE").value = userId;
-                                document.querySelector("#tituloE").value = titulo;
-                                document.querySelector("#descricaoE").value = descricao;
-                                document.querySelector("#datatE").value = dataFinal;
-                                document.querySelector("#txtStatusE").value = status;
-
-                                tarSelect.textContent = `Tarefa selecionada: "${titulo}"`;
-                                showForm(editForm);
-                            } else if (endOn) {
-                                document.querySelector("#txtIdE").value = id;
-                                tarSelect.textContent = `Tarefa selecionada: "${titulo}" Tem certeza que deseja finalizar esta tarefa?`;
-                                showForm(endForm);
-                            }
-                        });
-                    });
-                }
-
-                // Configura ações dos botões
-                btnEdit.addEventListener("click", function () {
-                    clearSelections();
-                    editOn = true;
-                    tarSelect.classList.remove("hidden");
-                    setupRowClickActions();
-                });
-
-                btnNew.addEventListener("click", function () {
-                    clearSelections();
-                    document.querySelector("#txtUserIdA").value = userId;
-                    document.querySelector("#tituloA").value = "";
-                    document.querySelector("#descricaoA").value = "";
-                    document.querySelector("#datatA").value = "";
-                    document.querySelector("#txtStatusA").value = "ativa";
-                    showForm(addForm);
-                });
-
-                btnFinish.addEventListener("click", function () {
-                    editForm.classList.add("hidden");
-                    addForm.classList.add("hidden");
-                    editForm.classList.remove("hiddenOff");
-                    addForm.classList.remove("hiddenOff");
-
-                    clearSelections();
-                    endOn = true;
-                    tarSelect.classList.remove("hidden");
-                    setupRowClickActions();
-                });
-
-                // Envio do formulário de edição
-                document.getElementById('form-editar').addEventListener('submit', async function (event) {
-                    event.preventDefault();
-                    const id = document.getElementById('txtIdE').value;
-                    const titulo = document.getElementById('tituloE').value;
-                    const descricao = document.getElementById('descricaoE').value;
-                    const dataFinal = document.getElementById('datatE').value;
-                    const status = document.getElementById('txtStatusE').value;
-
-                    try {
-                        const response = await fetch(`/editar/${id}`, {
-                            method: 'POST',
-                            headers: {'Content-Type': 'application/json'},
-                            body: JSON.stringify({id, titulo, descricao, datat: dataFinal, statust: status})
-                        });
-
-                        if (response.ok) {
-                            alert('Alterações salvas com sucesso!');
-                            window.location.reload();
-                        } else {
-                            alert('Erro ao salvar as alterações.');
-                        }
-                    } catch (error) {
-                        console.error('Erro na requisição:', error);
-                        alert('Erro ao processar a solicitação.');
-                    }
-                });
-
-                // Envio da função de finalização
-                document.getElementById("btnFinalizar").addEventListener("click", async function () {
-                    const id = document.getElementById('txtIdE').value;
-                    try {
-                        const response = await fetch(`/endTar/${id}`, {
-                            method: 'POST',
-                            headers: {'Content-Type': 'application/json'}
-                        });
-
-                        if (response.ok) {
-                            alert('Tarefa finalizada com sucesso!');
-                            window.location.reload();
-                        } else {
-                            alert('Erro ao finalizar a tarefa.');
-                        }
-                    } catch (error) {
-                        console.error('Erro na requisição:', error);
-                        alert('Erro ao processar a solicitação.');
-                    }
-                }, {once: true}); // Use { once: true } para evitar múltiplas associações
-            });
-        </script>
+        <script th:src="@{/JS/fTarefas.js}"></script>
     </body>
 </html>

@@ -50,6 +50,9 @@
                 });
 
                 if (response.ok) {
+                    const data = await response.json();
+                    const token = data.token;
+                    localStorage.setItem("jwtToken", token);
                     window.location.href = "/Tarefas";
                 } else {
                     alert("Login falhou, verifique suas credenciais.");

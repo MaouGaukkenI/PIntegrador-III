@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 /**
  *
@@ -32,9 +33,6 @@ import org.springframework.web.bind.annotation.RequestBody;
  */
 @Controller
 public class SiteController {
-
-    @Autowired
-    private UsuarioService userService;
 
     @Autowired
     private HistoricoService historicoService;
@@ -50,27 +48,8 @@ public class SiteController {
         return "index";
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Map<String, String> loginData, HttpServletResponse response) {
-        String login = loginData.get("login");
-        String senha = loginData.get("senha");
-        System.out.println(loginData);
-        return userService.login(login, senha, response);
-    }
-
-    @GetMapping("/getUserId")
-    public ResponseEntity<String> getUserId(@CookieValue("jwtToken") String token) {
-        try {
-            Claims claims = JwtUtil.validateToken(token);
-            String userId = claims.getSubject();
-            return ResponseEntity.ok(userId);
-        } catch (Exception e) {
-            return ResponseEntity.status(401).body("Token inválido ou expirado");
-        }
-    }
-
     @GetMapping("/Historico")
-    public String Historico(Model model, @CookieValue("jwtToken") String token) {
+    public String Historico(Model model, @CookieValue("jwtTokenId") String token) throws Exception {
         try {
             Claims claims = JwtUtil.validateToken(token);
             String userId = claims.getSubject();
@@ -83,7 +62,7 @@ public class SiteController {
     }
 
     @GetMapping("/Tarefas")
-    public String Tarefas(Model model, @CookieValue("jwtToken") String token) {
+    public String Tarefas(Model model, @CookieValue("jwtTokenId") String token) throws Exception {
         try {
             Claims claims = JwtUtil.validateToken(token);
             String userId = claims.getSubject();
@@ -140,5 +119,12 @@ public class SiteController {
         } else {
             return new ResponseEntity<>("Tarefa não encontrada", HttpStatus.NOT_FOUND);
         }
+    }
+    
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestHeader("Authorization") String token) {
+        String jwt = token.replace("Bearer ", "");
+        JwtUtil.invalidateToken(jwt);
+        return ResponseEntity.ok("Logout bem-sucedido");
     }
 }
