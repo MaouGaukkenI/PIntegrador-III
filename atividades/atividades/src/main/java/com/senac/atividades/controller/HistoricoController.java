@@ -4,7 +4,7 @@
  */
 package com.senac.atividades.controller;
 
-import com.senac.atividades.data.Historico;
+import com.senac.atividades.data.HistoricoEntity;
 import com.senac.atividades.service.HTService;
 import com.senac.atividades.service.HistoricoService;
 import java.util.List;
@@ -65,8 +65,8 @@ public class HistoricoController {
      * @return um JSON com a tarefa criada
      */
     @PostMapping("/adicionar")
-    public ResponseEntity<Historico> addAnalise(@RequestBody Historico his) {
-        Historico novaTarefa = historicoService.criarTarefa(his);
+    public ResponseEntity<HistoricoEntity> addAnalise(@RequestBody HistoricoEntity his) {
+        HistoricoEntity novaTarefa = historicoService.criarTarefa(his);
         return new ResponseEntity<>(novaTarefa, HttpStatus.CREATED);
     }
 
@@ -77,9 +77,9 @@ public class HistoricoController {
      * @return tarefa encontrada em JSON ou mensagem de erro
      */
     @GetMapping("/pesquisar/{id}")
-    public ResponseEntity<Historico> getTarefaById(@PathVariable Integer id) {
+    public ResponseEntity<HistoricoEntity> getTarefaById(@PathVariable Integer id) {
 
-        Historico his = historicoService.getTarefaById(id);
+        HistoricoEntity his = historicoService.getTarefaById(id);
 
         return new ResponseEntity<>(his, HttpStatus.OK);
     }
@@ -109,8 +109,8 @@ public class HistoricoController {
      * @return Tarefa editada em JSON.
      */
     @PutMapping("/editar/{id}")
-    public ResponseEntity<Historico> editarTarefa(@PathVariable Integer id, @RequestBody Historico novaTarefa) {
-        Historico tarefaEditada = historicoService.editarTar(id, novaTarefa);
+    public ResponseEntity<HistoricoEntity> editarTarefa(@PathVariable Integer id, @RequestBody HistoricoEntity novaTarefa) {
+        HistoricoEntity tarefaEditada = historicoService.editarTar(id, novaTarefa);
         if (tarefaEditada != null) {
             return new ResponseEntity<>(tarefaEditada, HttpStatus.OK);
         } else {
@@ -133,23 +133,5 @@ public class HistoricoController {
         } else {
             return ResponseEntity.badRequest().body("Falha ao recuperar tarefa.");
         }
-    }
-
-    /**
-     * Cadastro atraves do metodo GET.
-     *
-     * @param his entidade de formatação.
-     * @param usId id do usuario.
-     * @param tit titulo da tarefa.
-     * @param dat data final da tarefa.
-     * @param des descrição da tarefa.
-     * @param sta status da tareefa.
-     * @return
-     */
-    @GetMapping("/cadAt")
-    public String cadAt(Historico his, @RequestParam(required = false) Integer usId, @RequestParam(required = false) String tit, @RequestParam(required = false) String dat, @RequestParam(required = false) String des, @RequestParam(required = false) String sta) {
-        historicoService.cadAt(his, usId, tit, dat, des, sta);
-
-        return "index";
     }
 }

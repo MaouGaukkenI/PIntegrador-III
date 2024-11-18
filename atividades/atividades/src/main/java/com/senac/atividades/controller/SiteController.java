@@ -5,7 +5,8 @@
 package com.senac.atividades.controller;
 
 import com.senac.atividades.coockie.JwtUtil;
-import com.senac.atividades.data.Tarefa;
+import com.senac.atividades.data.TarefaEntity;
+import com.senac.atividades.data.UsuarioEntity;
 import com.senac.atividades.service.HTService;
 import com.senac.atividades.service.HistoricoService;
 import com.senac.atividades.service.TarefaService;
@@ -75,14 +76,14 @@ public class SiteController {
     }
 
     @PostMapping("/editar/{id}")
-    public String EditarTarefa(@PathVariable Integer id, @RequestBody Tarefa novaTarefa, Model model) {
+    public String EditarTarefa(@PathVariable Integer id, @RequestBody TarefaEntity novaTarefa, Model model) {
         tarefaService.editarTar(id, novaTarefa);
         model.addAttribute("listarTarefas", tarefaService.listarTarefas());
         return "redirect:/Tarefas";
     }
 
     @PostMapping("/AddTar")
-    public String AddTar(Tarefa novaTarefa, Model model) {
+    public String AddTar(TarefaEntity novaTarefa, Model model) {
         tarefaService.criarTarefa(novaTarefa);
         model.addAttribute("listarTarefas", tarefaService.listarTarefas());
         return "redirect:/Tarefas";

@@ -28,8 +28,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const btnTenNovDell = document.querySelector("#TND");
     const btnCanDell = document.querySelector("#CaD");
 
-    console.log(btnFinish);
-
     function closeAll() {
         telaEdit.classList.add("hidden");
         campoSenha.classList.add("hidden");

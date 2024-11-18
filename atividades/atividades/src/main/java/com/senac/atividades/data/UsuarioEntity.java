@@ -4,6 +4,9 @@
  */
 package com.senac.atividades.data;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,12 +16,13 @@ import lombok.NoArgsConstructor;
  *
  * @author MGaukken__
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Usuario {
+@Entity
+@Table(name="Usuarios")
+public class UsuarioEntity {
 
+    @Id 
     private Integer id;
+    
     private String login;
     private String senha;
 

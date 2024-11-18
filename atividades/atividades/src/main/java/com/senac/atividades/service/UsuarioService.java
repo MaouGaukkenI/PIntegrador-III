@@ -5,11 +5,13 @@
 package com.senac.atividades.service;
 
 import com.senac.atividades.coockie.JwtUtil;
-import com.senac.atividades.data.Usuario;
+import com.senac.atividades.data.UsuarioEntity;
+import com.senac.atividades.data.UsuarioRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
+import jakarta.transaction.Transactional;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,49 +29,37 @@ public class UsuarioService {
     @Autowired
     private TarefaService tarefaService;
 
-    private static List<Usuario> users = new ArrayList<>();
+    @Autowired
+    UsuarioRepository usuarioRepository;
 
-    /**
-     * Lista de usuarios para teste.
-     */
-    public UsuarioService() {
-        users.add(new Usuario(1, "Master", "Login1234"));
-        users.add(new Usuario(2, "uTest1", "ab"));
-        users.add(new Usuario(3, "uTest2", "ab"));
-    }
-
-    public ResponseEntity<String> login(String login, String senha, HttpServletResponse response) {
-        Usuario usuario = findByLogin(login);
+    public ResponseEntity<?> login(String login, String senha, HttpServletResponse response) {
+        UsuarioEntity usuario = findByLogin(login);
         if (usuario != null && usuario.getSenha().equals(senha)) {
             String tokenId = JwtUtil.generateToken(String.valueOf(usuario.getId()));
             String tokenUser = JwtUtil.generateToken(String.valueOf(usuario.getLogin()));
 
             Cookie jwtCookieI = new Cookie("jwtTokenId", tokenId);
             jwtCookieI.setHttpOnly(true);
-            jwtCookieI.setPath("/"); 
+            jwtCookieI.setPath("/");
             jwtCookieI.setMaxAge(86400);
             response.addCookie(jwtCookieI);
 
             Cookie jwtCookieU = new Cookie("jwtTokenUser", tokenUser);
             jwtCookieU.setHttpOnly(true);
-            jwtCookieU.setPath("/"); 
+            jwtCookieU.setPath("/");
             jwtCookieU.setMaxAge(86400);
             response.addCookie(jwtCookieU);
 
-            return ResponseEntity.ok("Login realizado com sucesso!");
+            // Enviar o token no corpo da resposta como JSON
+            return ResponseEntity.ok(Map.of("token", tokenId));  // Modificado aqui
         } else {
-            return ResponseEntity.status(401).body("Credenciais inválidas");
+            return ResponseEntity.status(401).body(Map.of("error", "Credenciais inválidas"));
         }
     }
-    
 
-    public Usuario findByLogin(String login) {
-        for (Usuario user : users) {
-            if (user.getLogin().equals(login)) {
-                return user;
-            }
-        }
-        return null;
+    public UsuarioEntity findByLogin(String login) {
+        UsuarioEntity usuario = usuarioRepository.findUsuarioByLogin(login);
+        return usuario;
     }
 
     /**
@@ -78,11 +68,8 @@ public class UsuarioService {
      * @return todos os nomes de usuario.
      */
     public List<String> showUserNames() {
-        List<String> Un = new ArrayList<>();
-        for (Usuario user : getUsers()) {
-            Un.add(user.getLogin());
-        }
-        return Un;
+        List<String> users = usuarioRepository.findAllLogins();
+        return users;
     }
 
     /**
@@ -91,10 +78,7 @@ public class UsuarioService {
      * @return Lista retornada.
      */
     public List<Integer> findAllIds() {
-        List<Integer> ids = new ArrayList<>();
-        for (Usuario tarefa : getUsers()) {
-            ids.add(tarefa.getId());
-        }
+        List<Integer> ids = usuarioRepository.findAllIds();
         return ids;
     }
 
@@ -121,7 +105,7 @@ public class UsuarioService {
      * @param user entidade de formatação.
      * @return o usuario criado em JSON.
      */
-    public Usuario criarUsuario(Usuario user) {
+    public UsuarioEntity criarUsuario(UsuarioEntity user) {
         List<Integer> allIds = findAllIds();
         Integer missingId = findMissingId(allIds);
 
@@ -132,8 +116,16 @@ public class UsuarioService {
             user.setId(nextId);
         }
 
-        getUsers().add(user);
+        usuarioRepository.save(user);
         return user;
+    }
+
+    public boolean deletarUsuario(Integer id) {
+        if (usuarioRepository.existsById(id)) {
+            usuarioRepository.deleteById(id);
+            return true; // Tarefa deletada com sucesso
+        }
+        return false; // Tarefa não encontrada
     }
 
     /**
@@ -142,20 +134,23 @@ public class UsuarioService {
      * @param id id do usuario.
      * @return boleano com resultado da exclusão do usuario.
      */
+    @Transactional
     public boolean dellUsuario(Integer id) {
-        boolean result1 = users.removeIf(usuario -> usuario.getId().equals(id));
-        boolean result2 = historicoService.dellByUserID(id);
-        boolean result3 = tarefaService.dellByUserID(id);
-        return result1 && result2 && result3;
+        boolean result1 = false;
+        boolean result2 = false;
+        boolean result3 = false;
+
+        try {
+            result1 = deletarUsuario(id); // Deleta o usuário
+            result2 = historicoService.dellByUserID(id); // Deleta o histórico do usuário
+            result3 = tarefaService.dellByUserID(id); // Deleta as tarefas do usuário
+        } catch (Exception e) {
+            System.out.println("Erro ao deletar os dados do usuário: " + e.getMessage());
+        }
+
+        return result1 && result2 && result3; // Retorna verdadeiro se todas as exclusões forem bem-sucedidas
     }
 
-    /**
-     * @return os usuaruios
-     */
-    public static List<Usuario> getUsers() {
-        return users;
-    }
-    
     /**
      * Permite que uma tarefa da aba de tarefas seja editada de acordo com o id
      * enviado.
@@ -164,14 +159,13 @@ public class UsuarioService {
      * @param u entidade de formatação.
      * @return a tarefa editada em JSON.
      */
-    public Usuario editarTar(String login, Usuario u) {
-        Usuario user = findByLogin(login);
-
-        if (user != null) {
-            user.setLogin(u.getLogin());
-            user.setSenha(u.getSenha());
-        }
-        System.out.println("Os dados enviados pelo json são:" + user);
-        return user;
+    public UsuarioEntity editarUser(String login, UsuarioEntity u) {
+        UsuarioEntity user = findByLogin(login);
+        return usuarioRepository.findById(user.getId()).map(usuarioExistente -> {
+            usuarioExistente.setLogin(u.getLogin());
+            usuarioExistente.setSenha(u.getSenha());
+            
+            return usuarioRepository.save(usuarioExistente);
+        }).orElseThrow(() -> new RuntimeException("Usuario não encontrada com o id: " + user.getId()));
     }
 }

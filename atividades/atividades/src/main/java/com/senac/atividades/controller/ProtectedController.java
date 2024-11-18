@@ -1,7 +1,7 @@
 package com.senac.atividades.controller;
 
 import com.senac.atividades.coockie.JwtUtil;
-import com.senac.atividades.data.Usuario;
+import com.senac.atividades.data.UsuarioEntity;
 import com.senac.atividades.service.UsuarioService;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletResponse;
@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,7 +44,7 @@ public class ProtectedController {
         String login = loginData.get("login");
         String senha = loginData.get("senha");
         System.out.println(loginData);
-        return userService.login(login, senha, response);
+        return (ResponseEntity<String>) userService.login(login, senha, response);
     }
 
     @GetMapping("/getUserId")
@@ -78,11 +77,11 @@ public class ProtectedController {
      * @return Tarefa editada em JSON.
      */
     @PutMapping("/editarUser")
-    public ResponseEntity<Usuario> editarTarefa(@CookieValue("jwtTokenUser") String token, @RequestBody Usuario novoUsuario) {
+    public ResponseEntity<UsuarioEntity> editarTarefa(@CookieValue("jwtTokenUser") String token, @RequestBody UsuarioEntity novoUsuario) {
         try {
             Claims claims = JwtUtil.validateToken(token);
             String user = claims.getSubject();
-            Usuario userEditado = userService.editarTar(user, novoUsuario);
+            UsuarioEntity userEditado = userService.editarUser(user, novoUsuario);
             if (userEditado != null) {
                 return new ResponseEntity<>(userEditado, HttpStatus.OK);
             } else {
@@ -99,6 +98,7 @@ public class ProtectedController {
      *
      * @param token identifiqca o usuario desejado.
      * @return
+     * @throws java.lang.Exception
      */
     @DeleteMapping("/dellUser")
     public ResponseEntity<String> dellUser(@CookieValue("jwtTokenId") String token) throws Exception {

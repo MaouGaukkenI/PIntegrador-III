@@ -5,7 +5,7 @@
 package com.senac.atividades.controller;
 
 import com.senac.atividades.coockie.JwtUtil;
-import com.senac.atividades.data.Usuario;
+import com.senac.atividades.data.UsuarioEntity;
 import com.senac.atividades.service.UsuarioService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -52,8 +52,8 @@ public class UsuarioController {
      * @return o usuario criado e JSON.
      */
     @PostMapping("/cadUser")
-    public ResponseEntity<Usuario> addAnalise(@RequestBody Usuario user) {
-        Usuario novaTarefa = userService.criarUsuario(user);
+    public ResponseEntity<UsuarioEntity> addAnalise(@RequestBody UsuarioEntity user) {
+        UsuarioEntity novaTarefa = userService.criarUsuario(user);
         return new ResponseEntity<>(novaTarefa, HttpStatus.CREATED);
     }
 }

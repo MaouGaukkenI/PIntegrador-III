@@ -2,7 +2,7 @@ package com.senac.atividades.controller;
 
 import org.springframework.stereotype.Controller;
 import com.senac.atividades.service.TarefaService;
-import com.senac.atividades.data.Tarefa;
+import com.senac.atividades.data.TarefaEntity;
 import com.senac.atividades.service.HTService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,8 +61,8 @@ public class TarefaController {
      * @return um JSON com a tarefa criada
      */
     @PostMapping("/adicionar")
-    public ResponseEntity<Tarefa> addAnalise(@RequestBody Tarefa tar) {
-        Tarefa novaTarefa = tarefaService.criarTarefa(tar);
+    public ResponseEntity<TarefaEntity> addAnalise(@RequestBody TarefaEntity tar) {
+        TarefaEntity novaTarefa = tarefaService.criarTarefa(tar);
         return new ResponseEntity<>(novaTarefa, HttpStatus.CREATED);
     }
 
@@ -73,29 +73,11 @@ public class TarefaController {
      * @return tarefa encontrada em JSON ou mensagem de erro
      */
     @GetMapping("/pesquisar/{id}")
-    public ResponseEntity<Tarefa> getTarefaById(@PathVariable Integer id) {
+    public ResponseEntity<TarefaEntity> getTarefaById(@PathVariable Integer id) {
 
-        Tarefa tar = tarefaService.getTarefaById(id);
+        TarefaEntity tar = tarefaService.getTarefaById(id);
 
         return new ResponseEntity<>(tar, HttpStatus.OK);
-    }
-
-    /**
-     * Cadastro atraves do metodo GET.
-     *
-     * @param tar entidade de formatação.
-     * @param usId id do usuario.
-     * @param tit titulo da tarefa.
-     * @param dat data final da tarefa.
-     * @param des descrição da tarefa.
-     * @param sta status da tareefa.
-     * @return
-     */
-    @GetMapping("/cadAt")
-    public String cadAt(Tarefa tar, @RequestParam(required = false) Integer usId, @RequestParam(required = false) String tit, @RequestParam(required = false) String dat, @RequestParam(required = false) String des, @RequestParam(required = false) String sta) {
-        tarefaService.cadAt(tar, usId, tit, dat, des, sta);
-
-        return "index";
     }
 
     /**
@@ -123,8 +105,8 @@ public class TarefaController {
      * @return Tarefa editada em JSON.
      */
     @PutMapping("/editar/{id}")
-    public ResponseEntity<Tarefa> editarTarefa(@PathVariable Integer id, @RequestBody Tarefa novaTarefa) {
-        Tarefa tarefaEditada = tarefaService.editarTar(id, novaTarefa);
+    public ResponseEntity<TarefaEntity> editarTarefa(@PathVariable Integer id, @RequestBody TarefaEntity novaTarefa) {
+        TarefaEntity tarefaEditada = tarefaService.editarTar(id, novaTarefa);
         if (tarefaEditada != null) {
             return new ResponseEntity<>(tarefaEditada, HttpStatus.OK);
         } else {

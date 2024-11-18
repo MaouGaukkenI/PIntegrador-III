@@ -4,8 +4,8 @@
  */
 package com.senac.atividades.service;
 
-import com.senac.atividades.data.Historico;
-import com.senac.atividades.data.Tarefa;
+import com.senac.atividades.data.HistoricoEntity;
+import com.senac.atividades.data.TarefaEntity;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,16 +33,14 @@ public class HTService {
      * @return
      */
     public boolean moverParaHistorico(Integer id) {
-        Tarefa tarefa = tarefaService.getTarefaById(id);
+        TarefaEntity tarefa = tarefaService.getTarefaById(id);
         if (tarefa != null) {
-            Historico historico = new Historico(
-                    historicoService.findMissingId(historicoService.findAllIds()),
-                    tarefa.getUserId(),
-                    tarefa.getTitulo(),
-                    tarefa.getDatat(),
-                    tarefa.getDescricao(),
-                    "Finalizada"
-            );
+            HistoricoEntity historico = new HistoricoEntity();
+            historico.setUserid(tarefa.getUserid());
+            historico.setTitulo(tarefa.getTitulo());
+            historico.setDatat(tarefa.getDatat());
+            historico.setDescricao(tarefa.getDescricao());
+            historico.setStatust("Finalizada");
 
             historicoService.criarTarefa(historico);
 
@@ -59,16 +57,14 @@ public class HTService {
      * @return
      */
     public boolean moverParaTarefas(Integer id) {
-        Historico historico = historicoService.getTarefaById(id);
+        HistoricoEntity historico = historicoService.getTarefaById(id);
         if (historico != null) {
-            Tarefa tarefa = new Tarefa(
-                    tarefaService.findMissingId(tarefaService.findAllIds()),
-                    historico.getUserId(),
-                    historico.getTitulo(),
-                    historico.getDatat(),
-                    historico.getDescricao(),
-                    "ativa"
-            );
+            TarefaEntity tarefa = new TarefaEntity();
+            tarefa.setUserid(historico.getUserid());
+            tarefa.setTitulo(historico.getTitulo());
+            tarefa.setDatat(historico.getDatat());
+            tarefa.setDescricao(historico.getDescricao());
+            tarefa.setStatust("ativa");
 
             tarefaService.criarTarefa(tarefa);
 

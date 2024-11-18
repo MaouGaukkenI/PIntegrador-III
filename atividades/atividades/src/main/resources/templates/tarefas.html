@@ -136,8 +136,7 @@
                         <div class="EspaçadorIvh"></div>
                         <div style="display: flex; flex-direction: column">
                             <label for="datatE">Data Final:</label>
-                            <input type="date" name="datat" id="datatE" required style="font-size: 3vh"/>
-                            <label for="statustE">Status:</label>
+                            <input type="datetime-local" name="datat" id="datatE" required style="font-size: 3vh"/>
                             <input type="hidden" name="statust" id="txtStatusE"/>
                             <button type="submit" style="font-size: 3vh">Salvar Alterações</button>
                         </div>
@@ -146,7 +145,7 @@
                 <div class="fncAdd hidden" style="justify-content: center;">
                     <form action="/AddTar" method="post" style="display: flex; flex-direction: row">
                         <div style="display: flex; flex-direction: column">
-                            <input type="hidden" id="txtUserIdA" name="userId"/>
+                            <input type="hidden" id="txtUserIdA" name="userid"/>
                             <label for="tituloA">Título:</label>
                             <input type="text" name="titulo" id="tituloA" required style="font-size: 3vh"/>
                             <label for="descricaoA">Descrição:</label>
@@ -156,7 +155,6 @@
                         <div style="display: flex; flex-direction: column">
                             <label for="datatA">Data Final:</label>
                             <input type="datetime-local" name="datat" id="datatA" required style="font-size: 3vh"/>
-                            <label for="statustA">Status:</label>
                             <input type="hidden" name="statust" id="txtStatusA"/>
                             <button type="submit" style="font-size: 3vh">Salvar Alterações</button>
                         </div>
@@ -180,7 +178,7 @@
                         <tbody>
                             <tr class="movieRow" th:each="tarefa : ${listarTarefas}">
                                 <td class="hidden-column" th:text="${tarefa.id}"></td>
-                                <td class="hidden-column" th:text="${tarefa.userId}"></td>
+                                <td class="hidden-column" th:text="${tarefa.userid}"></td>
                                 <td th:text="${tarefa.titulo}"></td>
                                 <td th:text="${tarefa.descricao}"></td>
                                 <td class="DataEdit" th:text="${tarefa.datat}"></td>

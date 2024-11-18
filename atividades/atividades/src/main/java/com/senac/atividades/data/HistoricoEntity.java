@@ -1,25 +1,27 @@
 package com.senac.atividades.data;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Serve como entidade para definir o formato dos dados armazenados.
  *
  * @author MGaukken__
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Historico {
+@Entity
+@Table(name="Historico")
+public class HistoricoEntity {
 
+    @Id 
     private Integer id;
-    private Integer userId;
+    
+    private Integer userid;
     private String titulo;
     private String datat;
     private String descricao;
-    private String statust;
+    private String statust;   
 
     /**
      * @return the id
@@ -33,6 +35,20 @@ public class Historico {
      */
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    /**
+     * @return the userid
+     */
+    public Integer getUserid() {
+        return userid;
+    }
+
+    /**
+     * @param userid the userid to set
+     */
+    public void setUserid(Integer userid) {
+        this.userid = userid;
     }
 
     /**
@@ -89,19 +105,5 @@ public class Historico {
      */
     public void setStatust(String statust) {
         this.statust = statust;
-    }
-
-    /**
-     * @return the userId
-     */
-    public Integer getUserId() {
-        return userId;
-    }
-
-    /**
-     * @param userId the userId to set
-     */
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 }

@@ -1,5 +1,8 @@
 package com.senac.atividades.data;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,13 +12,14 @@ import lombok.NoArgsConstructor;
  *
  * @author MGaukken__
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Tarefa {
+@Entity
+@Table(name="Tarefas")
+public class TarefaEntity {
 
+    @Id 
     private Integer id;
-    private Integer userId;
+    
+    private Integer userid;
     private String titulo;
     private String datat;
     private String descricao;
@@ -33,6 +37,20 @@ public class Tarefa {
      */
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    /**
+     * @return the userid
+     */
+    public Integer getUserid() {
+        return userid;
+    }
+
+    /**
+     * @param userid the userid to set
+     */
+    public void setUserid(Integer userid) {
+        this.userid = userid;
     }
 
     /**
@@ -89,19 +107,5 @@ public class Tarefa {
      */
     public void setStatust(String statust) {
         this.statust = statust;
-    }
-
-    /**
-     * @return the userId
-     */
-    public Integer getUserId() {
-        return userId;
-    }
-
-    /**
-     * @param userId the userId to set
-     */
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 }

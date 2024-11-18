@@ -52,8 +52,12 @@
                 if (response.ok) {
                     const data = await response.json();
                     const token = data.token;
-                    localStorage.setItem("jwtToken", token);
-                    window.location.href = "/Tarefas";
+                    if (token) {
+                        localStorage.setItem("MeuToken", token);
+                        window.location.href = "/Tarefas";  // Redireciona para a página de tarefas
+                    } else {
+                        alert("Erro: token não encontrado.");
+                    }
                 } else {
                     alert("Login falhou, verifique suas credenciais.");
                 }
