@@ -48,9 +48,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 showUserName.forEach(element => {
                     element.textContent = logUser;
                 });
-                login.value = `${logUser}`;
-                loginD.value = `${logUser}`;
-                loginO.value = `${logUser}`;
             } else {
                 console.log("Falha ao obter Login do usuario!");
                 logUser = "Erro!";

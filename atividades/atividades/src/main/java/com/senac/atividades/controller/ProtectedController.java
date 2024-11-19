@@ -116,4 +116,35 @@ public class ProtectedController {
             return ResponseEntity.status(401).body("Token inválido ou expirado");
         }
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@CookieValue("jwtTokenUser") String token) {
+        try {
+            Claims claims = JwtUtil.validateToken(token);
+            String user = claims.getSubject();
+            JwtUtil.invalidateToken(user);
+            return ResponseEntity.ok("Logout realizado com sucesso");
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body("Token inválido ou expirado");
+        }
+    }
+
+    @GetMapping("/isLoggedIn")
+    public ResponseEntity<String> isUserLoggedIn(@CookieValue("jwtTokenUser") String token) {
+        try {
+            Claims claims = JwtUtil.validateToken(token);
+            String user = claims.getSubject();
+
+            if (JwtUtil.isTokenInvalidated(user)) {
+                return ResponseEntity.status(401).body("Usuário não está logado (token invalidado)");
+            }
+
+            // Se o token for válido e não estiver invalidado, retorna que o usuário está logado
+            return ResponseEntity.ok("Usuário está logado");
+        } catch (Exception e) {
+            // Se o token for inválido ou expirado
+            System.out.println("O token é invalido 4");
+            return ResponseEntity.status(401).body("Token inválido ou expirado");
+        }
+    }
 }

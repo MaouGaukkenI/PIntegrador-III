@@ -97,7 +97,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 </div>
             </div>
             <div class="divfuncUser hidden" id="finish" style="color: black; font-size: 10vh; background-color: white">
-                <p>Login bem sucedido! Volte para a tela de login</p>
+                <p>Dados alterado com sucesso! Volte para a tela de login</p>
                 <button id="btnFim" style="font-size: 10vh">OK!</button>
             </div>
         </div>
@@ -159,7 +159,26 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <footer>Todos direitos reservados a Diogo Borchhardt Beloni</footer>
 
         <script th:src="@{/JS/fUser.js}"></script>
-        
+
         <script th:src="@{/JS/fHistorico.js}"></script>
+
+        <script>
+            document.addEventListener("visibilitychange", async function () {
+                if (document.visibilityState === "visible") {
+                    const response = await fetch("http://localhost:8080/isLoggedIn", {
+                        method: "GET",
+                        headers: {"Content-Type": "application/json"}
+                    });
+
+                    if (response.ok) {
+                        console.log("O usuario esta logado");
+                    } else {
+                        alert("Usuario deslogado!");
+                        window.location.href = "/";
+                    }
+                } else {
+                }
+            });
+        </script>
     </body>
 </html>

@@ -23,7 +23,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (response.ok) {
                 userId = await response.text();
-                console.log(userId);
             } else {
                 console.log("Falha ao obter o User ID.");
             }
@@ -54,9 +53,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 login.value = `${logUser}`;
                 loginD.value = `${logUser}`;
                 loginO.value = `${logUser}`;
-                console.log(login);
-                console.log(loginD);
-                console.log(loginO);
             } else {
                 console.log("Falha ao obter Login do usuario!");
                 logUser = "Erro!";

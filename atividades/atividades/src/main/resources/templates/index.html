@@ -27,21 +27,50 @@
                 margin-bottom: 2vh;
                 font-size: 3vh;
             }
+            .hidden {
+                display: none;
+            }
         </style>
     </head>
     <body>
         <form id="loginForm">
-            <input type="text" id="login" placeholder="Usuário" required>
-            <input type="password" id="senha" placeholder="Senha" required>
+            <input type="text" id="loginL" placeholder="Usuário" maxlength="16" required>
+            <input type="password" id="senhaL" placeholder="Senha" maxlength="16" required>
             <button type="submit" style="font-size: 3vh;">Login</button>
+            <a id="addUser" style="font-size: 3vh; margin-top: 2vh; color: blue">Novo usuario</a>
+        </form>
+        <form class="hidden" id="addForm">
+            <input type="text" id="loginA" placeholder="Usuário" maxlength="16" required>
+            <input type="password" id="senhaA" placeholder="Senha" maxlength="16" required>
+            <button type="submit" style="font-size: 3vh;">Cadastrar Usuario</button>
+            <a class="hidden" id="loginUser" style="font-size: 3vh; margin-top: 2vh; color: blue">Login</a>
         </form>
 
         <script>
+            const btnAdd = document.querySelector("#addUser");
+            const btnLog = document.querySelector("#loginUser");
+            const telaLog = document.querySelector("#loginForm");
+            const telaAdd = document.querySelector("#addForm");
+
+            btnAdd.addEventListener("click", function () {
+                btnAdd.classList.add("hidden");
+                telaLog.classList.add("hidden");
+                telaAdd.classList.remove("hidden");
+                btnLog.classList.remove("hidden");
+            });
+
+            btnLog.addEventListener("click", function () {
+                btnAdd.classList.remove("hidden");
+                telaLog.classList.remove("hidden");
+                telaAdd.classList.add("hidden");
+                btnLog.classList.add("hidden");
+            });
+
             document.getElementById("loginForm").addEventListener("submit", async function (e) {
                 e.preventDefault();
 
-                const login = document.getElementById("login").value;
-                const senha = document.getElementById("senha").value;
+                const login = document.getElementById("loginL").value;
+                const senha = document.getElementById("senhaL").value;
 
                 const response = await fetch("http://localhost:8080/login", {
                     method: "POST",
@@ -60,6 +89,25 @@
                     }
                 } else {
                     alert("Login falhou, verifique suas credenciais.");
+                }
+            });
+            
+            document.getElementById("addForm").addEventListener("submit", async function (e) {
+                e.preventDefault();
+
+                const login = document.getElementById("loginA").value;
+                const senha = document.getElementById("senhaA").value;
+
+                const response = await fetch("http://localhost:8080/User/cadUser", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({login, senha})
+                });
+
+                if (response.ok) {
+                    alert("Usuario adicionado com sucesso!");
+                } else {
+                    alert("Erro ao cadastrar novo usuario.");
                 }
             });
         </script>

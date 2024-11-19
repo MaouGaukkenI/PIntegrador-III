@@ -54,6 +54,6 @@ public class UsuarioController {
     @PostMapping("/cadUser")
     public ResponseEntity<UsuarioEntity> addAnalise(@RequestBody UsuarioEntity user) {
         UsuarioEntity novaTarefa = userService.criarUsuario(user);
-        return new ResponseEntity<>(novaTarefa, HttpStatus.CREATED);
+        return ResponseEntity.ok(novaTarefa);
     }
 }

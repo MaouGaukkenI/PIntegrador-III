@@ -121,11 +121,4 @@ public class SiteController {
             return new ResponseEntity<>("Tarefa não encontrada", HttpStatus.NOT_FOUND);
         }
     }
-    
-    @PostMapping("/logout")
-    public ResponseEntity<?> logout(@RequestHeader("Authorization") String token) {
-        String jwt = token.replace("Bearer ", "");
-        JwtUtil.invalidateToken(jwt);
-        return ResponseEntity.ok("Logout bem-sucedido");
-    }
 }

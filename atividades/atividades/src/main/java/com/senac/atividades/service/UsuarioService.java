@@ -7,6 +7,7 @@ package com.senac.atividades.service;
 import com.senac.atividades.coockie.JwtUtil;
 import com.senac.atividades.data.UsuarioEntity;
 import com.senac.atividades.data.UsuarioRepository;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
@@ -34,6 +35,8 @@ public class UsuarioService {
 
     public ResponseEntity<?> login(String login, String senha, HttpServletResponse response) {
         UsuarioEntity usuario = findByLogin(login);
+        
+        JwtUtil.ativateToken(login);
         if (usuario != null && usuario.getSenha().equals(senha)) {
             String tokenId = JwtUtil.generateToken(String.valueOf(usuario.getId()));
             String tokenUser = JwtUtil.generateToken(String.valueOf(usuario.getLogin()));
@@ -106,7 +109,7 @@ public class UsuarioService {
      * @return o usuario criado em JSON.
      */
     public UsuarioEntity criarUsuario(UsuarioEntity user) {
-        List<Integer> allIds = findAllIds();
+        List<Integer> allIds = usuarioRepository.findAllIds();
         Integer missingId = findMissingId(allIds);
 
         if (missingId != null) {

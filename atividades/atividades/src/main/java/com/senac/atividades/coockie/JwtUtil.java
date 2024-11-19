@@ -3,20 +3,32 @@ package com.senac.atividades.coockie;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 /**
- *
- * @author TheDe
+ * Classe responsável pela manipulação de tokens JWT. Contém métodos para gerar,
+ * validar e invalidar tokens.
  */
 public class JwtUtil {
 
     private static final String SECRET_KEY = "httpservercheckuser";
 
-    private static final Set<String> invalidatedTokens = new HashSet<>();
+    // Lista de tokens invalidados
+    private static final List<String> invalidatedTokens = new ArrayList<>();
 
+    /**
+     * Gera um token JWT para um usuário.
+     *
+     * @param userId ID do usuário para gerar o token.
+     * @return O token JWT gerado.
+     */
     public static String generateToken(String userId) {
         return Jwts.builder()
                 .setSubject(userId)
@@ -26,20 +38,56 @@ public class JwtUtil {
                 .compact();
     }
 
+    /**
+     * Valida o token JWT. Verifica se o token foi invalidado e se é válido.
+     *
+     * @param token O token JWT a ser validado.
+     * @return Os claims do token, se válido.
+     * @throws Exception Se o token for inválido ou estiver na lista de tokens
+     * invalidados.
+     */
     public static Claims validateToken(String token) throws Exception {
-        if (isTokenInvalidated(token)) {
-            throw new Exception("Token has been invalidated");
+        try {
+            return Jwts.parser()
+                    .setSigningKey(SECRET_KEY)
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (ExpiredJwtException | MalformedJwtException | SignatureException | UnsupportedJwtException | IllegalArgumentException e) {
+            throw new Exception("Invalid token", e);  // Em caso de erro ao decodificar o token
         }
-        return Jwts.parser()
-                .setSigningKey(SECRET_KEY)
-                .parseClaimsJws(token)
-                .getBody();
     }
 
+    public static boolean userLoggedIn(String token) throws Exception {
+        Claims claims = JwtUtil.validateToken(token);
+        String user = claims.getSubject();
+        
+        return !isTokenInvalidated(user);
+    }
+
+    /**
+     * Invalidar um token JWT.
+     *
+     * @param token O token JWT a ser invalidado.
+     */
     public static void invalidateToken(String token) {
         invalidatedTokens.add(token);
     }
+    
+    /**
+     * Ativar um token JWT.
+     *
+     * @param token O token JWT a ser ativado.
+     */
+    public static void ativateToken(String token) {
+        invalidatedTokens.remove(token);
+    }
 
+    /**
+     * Verifica se um token foi invalidado.
+     *
+     * @param token O token JWT a ser verificado.
+     * @return Verdadeiro se o token foi invalidado, falso caso contrário.
+     */
     public static boolean isTokenInvalidated(String token) {
         return invalidatedTokens.contains(token);
     }

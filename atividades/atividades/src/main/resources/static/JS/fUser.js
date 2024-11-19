@@ -75,20 +75,16 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             if (response.ok) {
-                const token = localStorage.getItem("jwtToken");
-                
-                await fetch("http://localhost:8080/auth/logout", {
+                const response = await fetch("http://localhost:8080/logout", {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}`
-                    }
+                    headers: {"Content-Type": "application/json"}
                 });
-                
-                localStorage.removeItem("jwtToken");
 
-                alert("Usuário deletado com sucesso");
-                window.location.href = "/";
+                if (response.ok) {
+                    window.location.href = "/";
+                } else {
+                    alert("Erro ao deslogar");
+                }
             } else {
                 alert("Erro ao deletar usuário");
                 closeAll();
@@ -157,7 +153,17 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             login.value = ``;
             alert("Erro inesperado");
-            window.location.href = "/";
+
+            const response = await fetch("http://localhost:8080/logout", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"}
+            });
+
+            if (response.ok) {
+                window.location.href = "/";
+            } else {
+                alert("Erro ao deslogar");
+            }
         }
     });
 
@@ -179,16 +185,44 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             login.value = ``;
             alert("Erro inesperado");
-            window.location.href = "/";
+
+            const response = await fetch("http://localhost:8080/logout", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"}
+            });
+
+            if (response.ok) {
+                window.location.href = "/";
+            } else {
+                alert("Erro ao deslogar");
+            }
         }
     });
 
-    btnDeslog.addEventListener("click", function () {
-        window.location.href = "/";
+    btnDeslog.addEventListener("click", async function () {
+        const response = await fetch("http://localhost:8080/logout", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"}
+        });
+
+        if (response.ok) {
+            window.location.href = "/";
+        } else {
+            alert("Erro ao deslogar");
+        }
     });
 
-    btnFinish.addEventListener("click", function () {
-        window.location.href = "/";
+    btnFinish.addEventListener("click", async function () {
+        const response = await fetch("http://localhost:8080/logout", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"}
+        });
+
+        if (response.ok) {
+            window.location.href = "/";
+        } else {
+            alert("Erro ao deslogar");
+        }
     });
 
     btnOpen.addEventListener("click", function () {
